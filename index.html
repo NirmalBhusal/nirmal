@@ -1074,44 +1074,13 @@ displayPostalCodes(postalCodes);
 // Auto year
 document.getElementById("year").textContent = new Date().getFullYear();
 </script>
-
-<script>
-function submitContact(event) {
-    event.preventDefault(); // prevent page reload
-
-    const name = document.getElementById("name").value.trim();
-    const email = document.getElementById("email").value.trim();
-    const message = document.getElementById("message").value.trim();
-    const contactMsg = document.getElementById("contact-msg");
-
-    if(!name || !email || !message) {
-        contactMsg.style.color = "red";
-        contactMsg.textContent = "Please fill in all fields.";
-        return;
-    }
-
-    // Example: You can replace this with AJAX/fetch to send to server
-    console.log({ name, email, message });
-
-    // Show success message
-    contactMsg.style.color = "green";
-    contactMsg.textContent = "Thank you! Your message has been sent.";
-
-    // Clear form
-    document.getElementById("contactForm").reset();
-
-    // Optional: Auto-hide message after 5 seconds
-    setTimeout(() => {
-        contactMsg.textContent = "";
-    }, 5000);
-}
-</script>
-
-<!--ads-->
+	
+	<!--ads-->
 	<script type="text/javascript"> var infolinks_pid = 3440144; var infolinks_wsid = 0; </script> 
 	<script type="text/javascript" src="//resources.infolinks.com/js/infolinks_main.js"></script>
 </body>
 </html>
+
 
 
 
