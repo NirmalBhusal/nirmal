@@ -4,12 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>RingtoneHub — Find & Download Beautiful Ringtones</title>
- <meta name="description" content="Download the best ringtones of the world. Free popular ringtones for your phone.">
-<!--favicon-->
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon[1].png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32[1].png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16[1].png">
-<link rel="manifest" href="/site[1].webmanifest">
+  <meta name="description" content="Modern, responsive ringtone library — search, preview, download and share mobile ringtones." />
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
   <style>
@@ -110,6 +105,75 @@
     .modal.show{display:flex}
     .pulse{animation:pulse 2.6s infinite}
     @keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.02)}100%{transform:scale(1)}}
+
+  header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px;
+  border-radius: 14px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+  backdrop-filter: blur(6px);
+  box-shadow: 0 6px 18px rgba(2,6,23,0.6);
+  flex-wrap: wrap; /* ✅ allows wrapping on small screens */
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 0 0 auto;
+}
+
+.search {
+  flex: 1 1 200px; /* ✅ shrinkable with min width */
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 120px; /* ✅ always leaves room */
+}
+
+.search input {
+  flex: 1 1 auto;
+  min-width: 0; /* ✅ important for shrinking */
+  padding: 8px 10px;
+  border-radius: 999px;
+  border: 0;
+  background: var(--glass);
+  color: inherit;
+  font-size: 14px;
+}
+
+.search button {
+  flex: 0 0 auto;
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 0;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  color: #021025;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.actions {
+  display: flex;
+  gap: 6px;
+  flex: 0 0 auto; /* ✅ fixed size */
+}
+
+/* Mobile responsive */
+@media (max-width: 600px) {
+  .site-sub { display: none; }
+  .search { flex: 1 1 100%; margin-top: 6px; }
+  .search input { font-size: 13px; padding: 6px 8px; }
+  .search button { font-size: 12px; padding: 5px 7px; }
+  .btn-ghost { font-size: 12px; padding: 5px 7px; }
+  header { gap: 4px; }
+}
+
   </style>
 </head>
 <body>
@@ -355,6 +419,3 @@ render();
 </script>
 </body>
 </html>
-
-
-
