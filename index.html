@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Postal Codes, Ringtones & Quick Access Pages | nirmalbhusal.com.np</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* small overrides specific to index */
+    .hero .left {display:flex;flex-direction:column;gap:12px}
+    .cta-row{display:flex;gap:10px}
+    .badge{font-size:12px;padding:6px 8px;border-radius:8px;background:rgba(233, 229, 229, 0.02);border:1px solid rgba(255,255,255,0.03)}
+  
+  /* styles.css - futuristic shared styles */
+:root{
+  --bg1:#071022; --bg2:#031227; --accent:#00f5a0; --accent-2:#7f6bff;
+  --glass: rgba(255,255,255,0.04);
+  --muted: rgba(255,255,255,0.75);
+  --card-shadow: 0 12px 40px rgba(2,6,23,0.65);
+  --radius:14px;
+  --mono: 'Orbitron', sans-serif;
+  --ui: 'Inter', system-ui, sans-serif;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;font-family:var(--ui);color:#e9f6ff;background:linear-gradient(160deg,var(--bg1),var(--bg2));-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+a{color:inherit;text-decoration:none}
+.container{max-width:1200px;margin:0 auto;padding:24px}
+
+/* animated gradient overlay */
+.bg-shimmer{
+  position:fixed;inset:0;z-index:0;pointer-events:none;mix-blend-mode:screen;opacity:0.12;
+  background:linear-gradient(45deg,var(--accent),var(--accent-2),#6ef0c1);
+  background-size:300% 300%;animation:shimmer 18s linear infinite;
+}
+@keyframes shimmer{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+
+/* starfield canvas sits behind content */
+#starfield{position:fixed;inset:0;z-index:0;opacity:0.7;filter:blur(8px)}
+
+/* header */
+.header{
+  position:relative;z-index:5;display:flex;align-items:center;justify-content:space-between;padding:18px 0;
+}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{
+  width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent-2));
+  display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-weight:700;color:#021018;font-size:20px;box-shadow:0 8px 30px rgba(25,45,80,0.45);
+}
+.nav{display:flex;gap:12px;align-items:center}
+.nav a{padding:10px 14px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);font-weight:600}
+.nav a.primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#021018;border:none}
+
+/* hero */
+.hero{
+  display:grid;grid-template-columns:1fr 360px;gap:28px;align-items:stretch;margin-top:16px;position:relative;z-index:2;
+}
+.card{
+  padding:20px;border-radius:var(--radius);background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);border:1px solid rgba(255,255,255,0.04);box-shadow:var(--card-shadow);
+}
+.h1{font-family:var(--mono);font-size:44px;margin:0 0 6px}
+.lead{color:var(--muted);margin-bottom:14px}
+
+/* categories */
+.categories{display:flex;flex-direction:column;gap:12px}
+.category-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;margin-top:8px}
+.cat-item{padding:12px;border-radius:12px;background:linear-gradient(180deg,rgba(255,255,255,0.01),transparent);border:1px solid rgba(255,255,255,0.03);display:flex;flex-direction:column;gap:8px}
+.cat-item h4{margin:0;font-family:var(--mono);font-size:14px}
+.cat-item a{font-size:13px;color:var(--muted)}
+
+/* sidebar clock */
+.clock{font-family:var(--mono);font-size:28px;text-align:center}
+.time-muted{color:var(--muted);text-align:center;margin-top:6px}
+
+/* ringtone preview */
+.ring-list{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+.ring-item{display:flex;align-items:center;gap:10px;padding:8px;border-radius:10px;border:1px solid rgba(255,255,255,0.03)}
+
+/* footer */
+.footer{display:flex;justify-content:space-between;align-items:center;padding:18px 0;margin-top:28px;z-index:2}
+.socials{display:flex;gap:10px}
+.icon{width:44px;height:44px;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,0.03);background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);font-weight:700}
+
+/* forms and modals */
+.form-row{display:flex;flex-direction:column;gap:8px}
+input[type=text],input[type=password],input[type=email],textarea,select{padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:#eaf7ff}
+.btn{padding:10px 14px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);cursor:pointer;background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent)}
+.btn.primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#021018;border:none;font-weight:700}
+
+/* small responsive */
+@media(max-width:980px){
+  .hero{grid-template-columns:1fr}
+  .nav{flex-wrap:wrap}
+  .logo{width:48px;height:48px}
+}
+
+/* Modal Styles */
+.modal {
+  display:none;
+  position:fixed; inset:0;
+  background:rgba(0,0,0,0.6);
+  backdrop-filter:blur(6px);
+  z-index:200;
+  justify-content:center;
+  align-items:center;
+}
+.modal-content {
+  background:linear-gradient(180deg,rgba(255,255,255,0.04),transparent);
+  padding:24px;
+  border-radius:var(--radius);
+  border:1px solid rgba(255,255,255,0.08);
+  width:320px;max-width:90%;
+  box-shadow:var(--card-shadow);
+  animation:scaleIn 0.3s ease;
+}
+.modal h2{margin:0 0 16px;font-family:var(--mono)}
+.close {
+  float:right;font-size:22px;font-weight:bold;
+  cursor:pointer;color:var(--muted);
+}
+@keyframes scaleIn {
+  from{transform:scale(0.85);opacity:0}
+  to{transform:scale(1);opacity:1}
+}
+
+
+.footer {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:18px 0;
+  margin-top:28px;
+  position:relative;
+  z-index:10; /* ✅ keeps footer above starfield */
+}
+
+.socials .icon {
+  position:relative;
+  z-index:15; /* ✅ ensures clickable */
+}
+
+
+  </style>
+</head>
+<body>
+  <canvas id="starfield"></canvas>
+  <div class="bg-shimmer" aria-hidden="true"></div>
+
+  <div class="container">
+    <header class="header">
+      <div class="brand">
+        <div class="logo">NB</div>
+        <div>
+          <div style="font-weight:700">nirmalbhusal.com.np</div>
+          <div style="font-size:12px;color:var(--muted)">Welcome!</div>
+        </div>
+      </div>
+      <nav class="nav">
+        <a href="index.html" class="primary">Home</a>
+        <a href="postal code.html">Postal Codes</a>
+        <a href="ringtone/Ringtone.html">Ringtones</a>
+        <a href="login.html">Login</a>
+        <a href="signup.html">Sign up</a>
+      </nav>
+    </header>
+
+    <main class="hero">
+      <div class="card left">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div>
+            <div class="h1">Welcome!</div>
+            <div class="lead">Manage postal code documents, a ringtone hub, and quick-access pages — all in a sleek animated interface.</div>
+            <div class="cta-row">
+              <a class="btn primary" href="postal code.html">Open Postal Categories</a>
+              <a class="btn" href="ringtone/Ringtone.html">Open Ringtone Hub</a>
+            </div>
+          </div>
+          <div style="text-align:right">
+          
+          </div>
+        </div>
+
+        <section class="categories card" style="margin-top:12px">
+          <h3 style="margin:0;font-family:var(--mono)">Categories</h3>
+          <div class="category-grid">
+            <div class="cat-item">
+              <h4>Postal Codes</h4>
+              <a href="postal code.html">Open postal page →</a>
+            </div>
+            <div class="cat-item">
+              <h4>Ringtone Hub</h4>
+              <a href="ringtone/Ringtone.html">Open ringtone hub →</a>
+            </div>
+          </div>
+        </section>
+
+      </div>
+
+      <aside class="card" style="display:flex;flex-direction:column;gap:12px">
+        <div>
+          <div class="clock" id="clock">--:--:--</div>
+          <div class="time-muted" id="date">Loading date…</div>
+        </div>
+
+        <div>
+          <h4 style="margin:0 0 8px 0">Quick Ringtone</h4>
+          <div style="font-size:13px;color:var(--muted)">Drag ringtones to the Ringtone Hub or visit the page.</div>
+          <div class="ring-list" id="miniRings" style="margin-top:8px">
+            <div style="color:var(--muted)">No local ringtones yet.</div>
+          </div>
+        </div>
+      </aside>
+    </main>
+
+    <footer class="footer">
+      <div>
+        <div style="font-weight:700">nirmalbhusal.com.np</div>
+        <div style="font-size:12px;color:var(--muted)">© <span id="year"></span>  — All rights reserved</div>
+      </div>
+<div>
+<div style="margin-top:10px; display:flex; flex-wrap:wrap; gap:14px; font-size:13px;">
+<a href="ringtone/policy.html" class="muted">Terms of Service</a>
+<a href="ringtone/policy.html" class="muted">Privacy Policy</a>
+<a href="ringtone/policy.html" class="muted">Cookie Policy</a>
+<a href="ringtone/policy.html" class="muted">Consent Choices</a>
+<a href="ringtone/policy.html" class="muted">DMCA / Copyright</a>
+<a href="ringtone/policy.html" class="muted">Accessibility</a>
+</div>
+</div>
+      <!--Contact-->
+      <div class="socials">
+  <!-- Instagram -->
+  <a class="icon" href="https://www.instagram.com/nirmalbhusal89/" target="_blank" title="Instagram">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="24" height="24" fill="currentColor">
+      <path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9 114.9-51.3 114.9-114.9S287.7 141 224.1 141zm0 189.6c-41.2 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.5 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.9-26.9 26.9s-26.9-12-26.9-26.9 12-26.9 26.9-26.9 26.9 12 26.9 26.9zm76.1 27.2c-1.7-35.7-9.9-67.2-36.1-93.4S383.7 24.1 348 22.4c-35.7-1.7-142.8-1.7-178.5 0-35.7 1.7-67.2 9.9-93.4 36.1S24.1 128.3 22.4 164c-1.7 35.7-1.7 142.8 0 178.5 1.7 35.7 9.9 67.2 36.1 93.4s57.7 34.4 93.4 36.1c35.7 1.7 142.8 1.7 178.5 0 35.7-1.7 67.2-9.9 93.4-36.1s34.4-57.7 36.1-93.4c1.7-35.7 1.7-142.8 0-178.5zm-48.1 218c-7.8 19.6-23 34.8-42.6 42.6-29.5 11.7-99.6 9-132.8 9s-103.4 2.6-132.8-9c-19.6-7.8-34.8-23-42.6-42.6-11.7-29.5-9-99.6-9-132.8s-2.6-103.4 9-132.8c7.8-19.6 23-34.8 42.6-42.6 29.5-11.7 99.6-9 132.8-9s103.4-2.6 132.8 9c19.6 7.8 34.8 23 42.6 42.6 11.7 29.5 9 99.6 9 132.8s2.6 103.4-9 132.8z"/>
+    </svg>
+  </a>
+
+  <!-- YouTube -->
+  <a class="icon" href="https://youtube.com/" target="_blank" title="YouTube">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="24" height="24" fill="currentColor">
+      <path d="M549.655 124.083c-6.281-23.668-24.822-42.244-48.523-48.525C456.576 64 288 64 288 64S119.424 64 74.868 75.558c-23.701 6.281-42.242 24.857-48.523 48.525C16 168.667 16 256 16 256s0 87.333 10.345 131.917c6.281 23.668 24.822 42.244 48.523 48.525C119.424 448 288 448 288 448s168.576 0 213.132-11.558c23.701-6.281 42.242-24.857 48.523-48.525C560 343.333 560 256 560 256s0-87.333-10.345-131.917zM232 334V178l142 78-142 78z"/>
+    </svg>
+  </a>
+
+  <!-- Gmail -->
+  <a class="icon" href="https://mail.google.com/mail/?view=cm&fs=1&to=nirmalbhusal239@gmail.com" target="_blank" title="Gmail">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="24" height="24">
+      <path fill="#EA4335" d="M24 24L3 8v32h42V8z"/>
+      <path fill="#34A853" d="M24 24l21 16V8z"/>
+      <path fill="#FBBC05" d="M24 24L3 8h42z"/>
+      <path fill="#4285F4" d="M24 24L3 40h42z"/>
+      <path fill="none" stroke="#FFF" stroke-width="4" d="M3 8l21 16L45 8"/>
+    </svg>
+  </a>
+</div>
+
+    </footer>
+  </div>
+<!-- Login Modal -->
+<div class="modal" id="loginModal">
+  <div class="modal-content">
+    <span class="close" data-close="loginModal">&times;</span>
+    <h2>Login</h2>
+    <form class="form-row">
+      <input type="email" placeholder="Email" required>
+      <input type="password" placeholder="Password" required>
+      <button type="submit" class="btn primary">Login</button>
+    </form>
+  </div>
+</div>
+
+<!-- Signup Modal -->
+<div class="modal" id="signupModal">
+  <div class="modal-content">
+    <span class="close" data-close="signupModal">&times;</span>
+    <h2>Sign Up</h2>
+    <form class="form-row">
+      <input type="text" placeholder="Username" required>
+      <input type="email" placeholder="Email" required>
+      <input type="password" placeholder="Password" required>
+      <button type="submit" class="btn primary">Create Account</button>
+    </form>
+  </div>
+</div>
+
+  
+  <script>
+    // Clock + date (auto-updating)
+    function updateClock() {
+      const now = new Date();
+      const opts = { weekday:'short', month:'short', day:'numeric' };
+      document.getElementById('clock').textContent = now.toLocaleTimeString('en-US', { hour12:false });
+      document.getElementById('date').textContent = now.toLocaleDateString('en-US', opts) + ' • Asia/Kathmandu';
+      document.getElementById('year').textContent = now.getFullYear();
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // Simple starfield background
+    const canvas = document.getElementById('starfield');
+    const ctx = canvas.getContext('2d');
+    let stars = [];
+    function resize() { canvas.width = innerWidth; canvas.height = innerHeight; initStars(); }
+    function initStars() {
+      stars = [];
+      const count = Math.floor((innerWidth + innerHeight) / 18);
+      for (let i=0;i<count;i++) stars.push({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, r: Math.random()*1.6, v: Math.random()*0.4 + 0.05 });
+    }
+    function animate() {
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      for (const s of stars) {
+        s.x += s.v;
+        if (s.x > canvas.width) { s.x = 0; s.y = Math.random()*canvas.height; }
+        ctx.beginPath();
+        ctx.fillStyle = `rgba(180,230,255,${0.1 + s.r*0.35})`;
+        ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+        ctx.fill();
+      }
+      requestAnimationFrame(animate);
+    }
+    addEventListener('resize', resize);
+    resize(); animate();
+
+    // Modal open/close logic
+function openModal(id){ document.getElementById(id).style.display='flex'; }
+function closeModal(id){ document.getElementById(id).style.display='none'; }
+
+// Attach navbar links
+document.querySelector('a[href="login.html"]').addEventListener('click', e=>{
+  e.preventDefault(); openModal('loginModal');
+});
+document.querySelector('a[href="signup.html"]').addEventListener('click', e=>{
+  e.preventDefault(); openModal('signupModal');
+});
+
+// Close when clicking [x]
+document.querySelectorAll('.close').forEach(btn=>{
+  btn.onclick=()=>closeModal(btn.dataset.close);
+});
+
+// Close when clicking outside modal
+window.onclick=function(e){
+  if(e.target.classList.contains('modal')) e.target.style.display='none';
+};
+
+  </script>
+</body>
+</html>

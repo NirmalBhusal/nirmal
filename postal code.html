@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nepal Postal Codes</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<!-- Particles.js library -->
+<script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
+<style>
+/* Reset & base */
+* { box-sizing: border-box; margin:0; padding:0; }
+body { font-family: 'Poppins', sans-serif; background:#0f0f1a; color:#fff; overflow-x:hidden; scroll-behavior: smooth; }
+
+/* Particles background */
+#tsparticles { position:fixed; top:0; left:0; width:100%; height:100%; z-index:-1; }
+
+/* Header */
+header { position: sticky; top:0; background:rgba(30,30,60,0.9); color:#fff; z-index:100; display:flex; justify-content: space-between; align-items:center; padding:15px 5%; backdrop-filter: blur(10px); box-shadow:0 4px 10px rgba(0,0,0,0.5); transition:0.3s; }
+header h1 { font-size:1.8em; color:#00e5ff; text-shadow: 0 0 10px #00e5ff; }
+nav a { margin-left:20px; font-weight:600; color:#fff; transition:0.3s; }
+nav a:hover { color:#ff3d00; }
+
+/* Hero */
+.hero { width:100%; min-height:200px; display:flex; align-items:center; justify-content:center; text-align:center; position:relative; overflow:hidden; }
+.hero h2 { font-size:2.5em; margin-bottom:20px; text-shadow: 0 0 20px #00e5ff; }
+.hero input { width:90%; max-width:500px; padding:15px 25px; border-radius:50px; border:none; outline:none; font-size:1em; transition:0.3s; }
+.hero input:focus { box-shadow:0 0 20px #00e5ff; }
+
+/* Sections */
+section { padding:80px 5%; position:relative; z-index:1; }
+section h2 { text-align:center; font-size:2.2em; margin-bottom:40px; color:#00e5ff; text-shadow: 0 0 10px #00e5ff; }
+
+/* Cards */
+.card-container { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:20px; }
+.card { background:rgba(255,255,255,0.05); padding:25px; border-radius:20px; box-shadow:0 6px 30px rgba(0,0,0,0.2); transition:0.4s; backdrop-filter: blur(10px); cursor:pointer; border:1px solid rgba(255,255,255,0.2); }
+.card:hover { transform: scale(1.05); box-shadow:0 12px 40px rgba(0,0,0,0.5); border-color:#00e5ff; }
+.card h3 { color:#ff3d00; margin-bottom:10px; }
+.card p { font-size:0.95em; margin:5px 0; }
+.card .city-list { display:none; margin-top:10px; }
+.card:hover .city-list { display:block; animation:fadeIn 0.5s ease; }
+
+/* Button */
+.download-btn { display:block; margin:30px auto; padding:15px 35px; font-size:1.1em; color:#fff; background:#00e5ff; border:none; border-radius:50px; cursor:pointer; transition:0.3s; box-shadow:0 6px 20px rgba(0,0,0,0.3); }
+.download-btn:hover { background:#ff3d00; transform: scale(1.05); }
+
+/* Footer */
+.footer {
+  background: rgba(30,30,60,0.9);
+  color: #fff;
+  text-align: center;
+  padding: 20px 10px;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 1rem;
+  box-shadow: 0 -3px 10px rgba(0,0,0,0.5);
+  backdrop-filter: blur(10px);
+  transition: 0.5s;
+}
+.footer p { margin:0; }
+.footer:hover { background: rgba(0,0,0,0.9); }
+
+/* Modal */
+.modal { display:none; position:fixed; z-index:1000; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.9); display:flex; align-items:center; justify-content:center; }
+.modal-content { background:#111; border-radius:15px; padding:25px; max-width:700px; width:90%; text-align:center; position:relative; animation:fadeIn 0.4s ease; box-shadow:0 8px 30px rgba(0,0,0,0.7); }
+.close { position:absolute; top:10px; right:15px; font-size:25px; font-weight:bold; color:#ff3d00; cursor:pointer; }
+@keyframes fadeIn { from {opacity:0; transform:scale(0.9);} to {opacity:1; transform:scale(1);} }
+
+/* Responsive */
+@media(max-width:768px){ header { flex-direction:column; text-align:center; } nav a{margin:10px;} }
+</style>
+</head>
+<body>
+
+<!-- Particles Background -->
+<div id="tsparticles"></div>
+
+<header>
+    <h1>Nepal Postal Codes</h1>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="#about">About Us</a>
+        <a href="https://www.instagram.com/nirmalbhusal89?igsh=ZmRyam9rY3N0eG44">Contact</a>
+    </nav>
+</header>
+
+<section class="hero" id="home">
+    <div>
+        <h2>Find Any Postal Code in Nepal</h2>
+        <input type="text" id="searchInput" placeholder="Search by District or City...">
+    </div>
+</section>
+
+<section>
+    <h2>Postal Codes</h2>
+    <div class="card-container" id="cardContainer"></div>
+    <button class="download-btn" onclick="downloadList()">Download Postal Codes</button>
+</section>
+
+<section id="about" style="padding:80px 20px; text-align:center;">
+  <h2>About Us</h2>
+  <div style="max-width:800px; margin:0 auto; background:rgba(255,255,255,0.05); padding:40px; border-radius:20px; backdrop-filter: blur(10px); box-shadow:0 8px 30px rgba(0,0,0,0.3);">
+    <p>We provide <strong>accurate and up-to-date postal code information</strong> for all cities and districts in Nepal. Our mission is to make it easy for users, businesses, and institutions to find postal codes quickly and efficiently.</p>
+    <p>Our data is <strong>carefully curated and continuously updated</strong> to ensure reliability and trustworthiness.</p>
+  </div>
+</section>
+
+<footer class="footer">
+  <p>&copy; <span id="year"></span> Nepal Postal Codes. All rights reserved.</p>
+</footer>
+
+<!-- Modal -->
+<div id="modal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2 id="modalTitle"></h2>
+        <p>Welcome to Nepal Postal Codes!</p>
+    </div>
+</div>
+
+<script>
+// Particles.js configuration
+tsParticles.load("tsparticles", {
+    particles: {
+        number: { value: 80, density: { enable: true, value_area: 800 } },
+        color: { value: ["#00e5ff","#ff3d00","#ffffff"] },
+        shape: { type: "circle" },
+        opacity: { value: 0.6, random: true },
+        size: { value: 3, random: true },
+        move: { enable: true, speed: 1.5, direction: "none", random: false, straight: false, out_mode: "out" }
+    },
+    interactivity: {
+        events: { onhover: { enable: true, mode: "repulse" }, onclick: { enable: true, mode: "push" } },
+        modes: { repulse: { distance: 100 }, push: { particles_nb: 4 } }
+    },
+    retina_detect: true
+});
+
+// Auto-update year
+document.getElementById("year").textContent = new Date().getFullYear();
+
+// Dummy Postal Codes (replace with your array)
+const postalCodes = [
+{ 
+  district: "Achham", 
+  code: "10700", // main district code
+  cities: [
+    { name: "Mangalsen", code: "10701" },
+    { name: "Bayalpata", code: "10705" },
+    { name: "Bhatakatiya", code: "10706" },
+    { name: "Chaurpati", code: "10703" },
+    { name: "Dhakari", code: "10712" },
+    { name: "Jayagadh", code: "10707" },
+    { name: "Kalagaun", code: "10709" },
+    { name: "Kamal Bazar", code: "10711" },
+    { name: "Kuchikot", code: "10710" },
+    { name: "Mellekh", code: "10704" },
+    { name: "Srikot", code: "10702" },
+    { name: "Thanti", code: "10703" },
+    { name: "Turmakhad", code: "10713" }
+  ]
+},
+
+ {
+  "district": "Arghakhanchi",
+  "code": "32700",
+  "cities": [
+    { "name": "Sandhikharka", "code": "32700" },
+    { "name": "Balkot", "code": "32701" },
+    { "name": "Arghatosh", "code": "32702" },
+    { "name": "Khan", "code": "32703" },
+    { "name": "Wangla", "code": "32704" },
+    { "name": "Hamshapur", "code": "32705" },
+    { "name": "Thada", "code": "32706" },
+    { "name": "Khilji", "code": "32708" },
+    { "name": "Khidim", "code": "32709" },
+    { "name": "Pali", "code": "32710" },
+    { "name": "Dhikura", "code": "32711" },
+    { "name": "Argha", "code": "32712" },
+    { "name": "Subarnakhal", "code": "32713" }
+  ]
+},
+
+  {
+    "district": "Baglung",
+    "code": "33300",
+    "cities": [
+      { "name": "Baglung", "code": "33301" },
+      { "name": "Pala", "code": "33302" },
+      { "name": "Bihukot", "code": "33303" },
+      { "name": "Harichaur", "code": "33304" },
+      { "name": "Balewa Payupata", "code": "33305" },
+      { "name": "Jaidi Belbagar", "code": "33306" },
+      { "name": "Bereng", "code": "33307" },
+      { "name": "Galkot", "code": "33308" },
+      { "name": "Pandavkhani", "code": "33309" },
+      { "name": "Arnakot", "code": "33310" },
+      { "name": "Khrwang", "code": "33311" },
+      { "name": "Bongadovan", "code": "33312" },
+      { "name": "Jhimpa", "code": "33313" },
+      { "name": "Kusmi Shera", "code": "33314" }
+    ]
+  },
+
+  {
+    "district": "Baitadi",
+    "code": "10200",
+    "cities": [
+      { "name": "Dasharathchand", "code": "10201" },
+      { "name": "Kesharpur", "code": "10202" },
+      { "name": "Patan", "code": "10203" },
+      { "name": "Khodpe", "code": "10204" },
+      { "name": "Mulkhatali", "code": "10205" },
+      { "name": "Gajari Changgad", "code": "10206" },
+      { "name": "Dehimandau", "code": "10207" },
+      { "name": "Sharmali", "code": "10208" },
+      { "name": "Srikot", "code": "10209" },
+      { "name": "Dilasaini", "code": "10210" },
+      { "name": "Swopana Taladehi", "code": "10211" },
+      { "name": "Purchaudihat", "code": "10212" },
+      { "name": "Sitad", "code": "10213" },
+      { "name": "Dhungad", "code": "10214" },
+      { "name": "Gokuleswor", "code": "10215" }
+    ]
+  },
+  {
+    "district": "Bajhang",
+    "code": "10500",
+    "cities": [
+      { "name": "Jayaprithvi", "code": "10501" },
+      { "name": "Bajhang", "code": "10502" },
+      { "name": "Bungal", "code": "10503" },
+      { "name": "Chandannath", "code": "10504" },
+      { "name": "Durgathali", "code": "10505" },
+      { "name": "Gokuleswor", "code": "10506" },
+      { "name": "Himalchuli", "code": "10507" },
+      { "name": "Jaya Prithvi", "code": "10508" },
+      { "name": "Khandeshwori", "code": "10509" },
+      { "name": "Laxmipur", "code": "10510" },
+      { "name": "Melauli", "code": "10511" },
+      { "name": "Nawadurga", "code": "10512" },
+      { "name": "Oda", "code": "10513" },
+      { "name": "Panchadewal Binayak", "code": "10514" },
+      { "name": "Ramaroshan", "code": "10515" },
+      { "name": "Sankhuwasabha", "code": "10516" },
+      { "name": "Tungri", "code": "10517" },
+      { "name": "Udayapur", "code": "10518" }
+    ]
+  },
+  {
+    "district": "Bajura",
+    "code": "10600",
+    "cities": [
+      { "name": "Martadi", "code": "10601" },
+      { "name": "Bajura-2", "code": "10602" },
+      { "name": "Bajura-3", "code": "10603" },
+      { "name": "Bajura-4", "code": "10604" },
+      { "name": "Bajura-5", "code": "10605" },
+      { "name": "Bajura-6", "code": "10606" },
+      { "name": "Bajura-7", "code": "10607" },
+      { "name": "Bajura-8", "code": "10608" },
+      { "name": "Bajura-9", "code": "10609" },
+      { "name": "Bajura-10", "code": "10610" },
+      { "name": "Bajura-11", "code": "10611" },
+      { "name": "Bajura-12", "code": "10612" },
+      { "name": "Bajura-13", "code": "10613" },
+      { "name": "Bajura-14", "code": "10614" },
+      { "name": "Bajura-15", "code": "10615" }
+    ]
+  },
+  {
+    "district": "Banke",
+    "code": "21900",
+    "cities": [
+      { "name": "Nepalgunj", "code": "21901" },
+      { "name": "Nepalgunj-2", "code": "21902" },
+      { "name": "Nepalgunj-3", "code": "21903" },
+      { "name": "Nepalgunj-4", "code": "21904" },
+      { "name": "Nepalgunj-5", "code": "21905" },
+      { "name": "Nepalgunj-6", "code": "21906" },
+      { "name": "Nepalgunj-7", "code": "21907" },
+      { "name": "Nepalgunj-8", "code": "21908" },
+      { "name": "Nepalgunj-9", "code": "21909" },
+      { "name": "Nepalgunj-10", "code": "21910" },
+      { "name": "Nepalgunj-11", "code": "21911" },
+      { "name": "Nepalgunj-12", "code": "21912" },
+      { "name": "Nepalgunj-13", "code": "21913" },
+      { "name": "Nepalgunj-14", "code": "21914" },
+      { "name": "Nepalgunj-15", "code": "21915" }
+    ]
+  },
+
+{
+  "district": "Bara",
+  "code": "44400",
+  "cities": [
+    { "name": "Kalaiya", "code": "44400" },
+    { "name": "Nijgadh", "code": "44401" },
+    { "name": "Mahendra Adarsha", "code": "44402" },
+    { "name": "Simraungadh", "code": "44403" },
+    { "name": "Umjan", "code": "44404" },
+    { "name": "Bariyarpur", "code": "44405" },
+    { "name": "Kabahigoth", "code": "44406" },
+    { "name": "Dumarwana", "code": "44408" },
+    { "name": "Pipradhigoth", "code": "44410" },
+    { "name": "Basantapur", "code": "44411" },
+    { "name": "Simara", "code": "44412" },
+    { "name": "Parsoni", "code": "44413" },
+    { "name": "Amalekhgung", "code": "44416" },
+    { "name": "Jeetpur (Bhavanipur)", "code": "44417" }
+  ]
+},
+  {
+    "district": "Bardiya",
+    "code": "21800",
+    "cities": [
+      { "name": "Gulariya", "code": "21800" },
+      { "name": "Jamuni", "code": "21801" },
+      { "name": "Mainapokhar", "code": "21802" },
+      { "name": "Motipur", "code": "21803" },
+      { "name": "Magaragadi", "code": "21804" },
+      { "name": "Baganaha", "code": "21808" },
+      { "name": "Bhurigaun", "code": "21809" },
+      { "name": "Rajapur", "code": "21811" },
+      { "name": "Pashupatinagar", "code": "21813" },
+      { "name": "Sanoshri", "code": "21814" }
+    ]
+  },
+  {
+    "district": "Bhaktapur",
+    "code": "44800",
+    "cities": [
+      { "name": "Bhaktapur", "code": "44800" },
+      { "name": "Dubakot", "code": "44802" },
+      { "name": "Kharipati", "code": "44804" },
+      { "name": "Tathali", "code": "44805" },
+      { "name": "Jorpati", "code": "44806" },
+      { "name": "Gamcha", "code": "44809" },
+      { "name": "Dibyashwori", "code": "44810" },
+      { "name": "Thimi", "code": "44811" },
+      { "name": "Nagarkot", "code": "44812" }
+    ]
+  },
+
+   {
+  "district": "Bhojpur",
+  "code": "57000",
+  "cities": [
+    { "name": "Bhojpur", "code": "57000" },
+    { "name": "Shadananda", "code": "57002" },
+    { "name": "Hatuwagadhi", "code": "57003" },
+    { "name": "Tunggochha", "code": "57004" },
+    { "name": "Ramprasad Rai", "code": "57005" },
+    { "name": "Pauwadungma", "code": "57006" }
+  ]
+},
+   {
+  "district": "Chitwan",
+  "code": "44200",
+  "cities": [
+    { "name": "Bharatpur", "code": "44200" },
+    { "name": "Ratnanagar", "code": "44201" },
+    { "name": "Khairahani", "code": "44202" },
+    { "name": "Madi", "code": "44203" },
+    { "name": "Kabilash", "code": "44204" },
+    { "name": "Ichchhakamana", "code": "44205" }
+  ]
+},
+{
+  "district": "Dadeldhura",
+  "code": "10300",
+  "cities": [
+    { "name": "Amargadhi", "code": "10300" },
+    { "name": "Parshuram", "code": "10301" },
+    { "name": "Shivanagar", "code": "10302" },
+    { "name": "Alital", "code": "10303" },
+    { "name": "Dhurkot", "code": "10304" },
+    { "name": "Ajayameru", "code": "10305" }
+  ]
+},
+  
+  {
+    "district": "Dailekh",
+    "code": "21600",
+    "cities": [
+      { "name": "Narayan", "code": "21600" },
+      { "name": "Dullu", "code": "21601" },
+      { "name": "Bhagawati", "code": "21602" },
+      { "name": "Chhatiwan", "code": "21603" },
+      { "name": "Mahabu", "code": "21604" },
+      { "name": "Aathbis", "code": "21605" }
+    ]
+  },
+  {
+    "district": "Dang",
+    "code": "22400",
+    "cities": [
+      { "name": "Ghorahi", "code": "22400" },
+      { "name": "Tulsipur", "code": "22401" },
+      { "name": "Lamahi", "code": "22402" },
+      { "name": "Banglachuli", "code": "22403" },
+      { "name": "Rajpur", "code": "22404" },
+      { "name": "Rapti", "code": "22405" }
+    ]
+  },
+    
+  {
+    "district": "Darchula",
+    "code": "10100",
+    "cities": [
+      { "name": "Darchula", "code": "10100" },
+      { "name": "Mahakali", "code": "10101" },
+      { "name": "Byas", "code": "10102" },
+      { "name": "Malikarjun", "code": "10103" },
+      { "name": "Api Nampa", "code": "10104" },
+      { "name": "Surnaya", "code": "10105" }
+    ]
+  },
+  {
+    "district": "Dhading",
+    "code": "45100",
+    "cities": [
+      { "name": "Dhading Besi", "code": "45100" },
+      { "name": "Benighat", "code": "45101" },
+      { "name": "Netrawati", "code": "45102" },
+      { "name": "Tripurakot", "code": "45103" },
+      { "name": "Gajuri", "code": "45104" },
+      { "name": "Nilkantha", "code": "45105" }
+    ]
+  },
+  {
+    "district": "Dhankuta",
+    "code": "56800",
+    "cities": [
+      { "name": "Dhankuta", "code": "56800" },
+      { "name": "Pakhribas", "code": "56801" },
+      { "name": "Mahalaxmi", "code": "56802" },
+      { "name": "Hile", "code": "56803" },
+      { "name": "Chhathar", "code": "56804" },
+      { "name": "Sangh Kheda", "code": "56805" }
+    ]
+  },
+   
+  {
+    "district": "Dhanusha",
+    "code": "45600",
+    "cities": [
+      { "name": "Janakpur", "code": "45600" },
+      { "name": "Bideha", "code": "45601" },
+      { "name": "Kamala", "code": "45602" },
+      { "name": "Mithila", "code": "45603" },
+      { "name": "Aurahi", "code": "45604" },
+      { "name": "Sapta", "code": "45605" }
+    ]
+  },
+  {
+    "district": "Dolakha",
+    "code": "45500",
+    "cities": [
+      { "name": "Charikot", "code": "45500" },
+      { "name": "Bigu", "code": "45501" },
+      { "name": "Jiri", "code": "45502" },
+      { "name": "Bhimeshwar", "code": "45503" }
+    ]
+  },
+  {
+    "district": "Dolpa",
+    "code": "21400",
+    "cities": [
+      { "name": "Dunai", "code": "21400" },
+      { "name": "Thuli Bheri", "code": "21401" },
+      { "name": "Kaigaun", "code": "21402" }
+    ]
+  },
+  {
+    "district": "Doti",
+    "code": "10800",
+    "cities": [
+      { "name": "Dipayal Silgadhi", "code": "10800" },
+      { "name": "Jorayal", "code": "10801" },
+      { "name": "Bogatan", "code": "10802" }
+    ]
+  },
+  {
+    "district": "Gorkha",
+    "code": "34000",
+    "cities": [
+      { "name": "Gorkha", "code": "34000" },
+      { "name": "Palungtar", "code": "34001" },
+      { "name": "Siranchok", "code": "34002" }
+    ]
+  },
+  {
+    "district": "Gulmi",
+    "code": "32600",
+    "cities": [
+      { "name": "Tamghas", "code": "32600" },
+      { "name": "Resunga", "code": "32601" },
+      { "name": "Rurukshetra", "code": "32602" }
+    ]
+  },
+  {
+    "district": "Humla",
+    "code": "21000",
+    "cities": [
+      { "name": "Simikot", "code": "21000" },
+      { "name": "Namkha", "code": "21001" },
+      { "name": "Sarkegad", "code": "21002" }
+    ]
+  },
+  {
+    "district": "Ilam",
+    "code": "57300",
+    "cities": [
+      { "name": "Ilam", "code": "57300" },
+      { "name": "Maipokhari", "code": "57301" },
+      { "name": "Chulachuli", "code": "57302" }
+    ]
+  },
+  {
+    "district": "Jajarkot",
+    "code": "21500",
+    "cities": [
+      { "name": "Khalanga", "code": "21500" },
+      { "name": "Bheri", "code": "21501" },
+      { "name": "Rukumkot", "code": "21502" }
+    ]
+  },
+  {
+    "district": "Jhapa",
+    "code": "57200",
+    "cities": [
+      { "name": "Birtamod", "code": "57200" },
+      { "name": "Damak", "code": "57201" },
+      { "name": "Mechinagar", "code": "57202" },
+      { "name": "Kankai", "code": "57203" }
+    ]
+  },
+  {
+    "district": "Jumla",
+    "code": "21200",
+    "cities": [
+      { "name": "Jumla", "code": "21200" },
+      { "name": "Chandannath", "code": "21201" },
+      { "name": "Tatopani", "code": "21202" }
+    ]
+  },
+  {
+    "district": "Kailali",
+    "code": "10900",
+    "cities": [
+      { "name": "Dhangadhi", "code": "10900" },
+      { "name": "Ghodaghodi", "code": "10901" },
+      { "name": "Bhajani", "code": "10902" },
+      { "name": "Lamki Chuha", "code": "10903" }
+    ]
+  },
+    
+  {
+    "district": "Kalikot",
+    "code": "21300",
+    "cities": [
+      { "name": "Manma", "code": "21300" },
+      { "name": "Raskot", "code": "21301" },
+      { "name": "Palata", "code": "21302" },
+      { "name": "Tilagufa", "code": "21303" }
+    ]
+  },
+  {
+    "district": "Kanchanpur",
+    "code": "10400",
+    "cities": [
+      { "name": "Bhimdatta", "code": "10400" },
+      { "name": "Krishnapur", "code": "10401" },
+      { "name": "Bedkot", "code": "10402" },
+      { "name": "Punarbas", "code": "10403" }
+    ]
+  },
+  {
+    "district": "Kapilvastu",
+    "code": "32800",
+    "cities": [
+      { "name": "Taulihawa", "code": "32800" },
+      { "name": "Buddhabhumi", "code": "32801" },
+      { "name": "Banganga", "code": "32802" },
+      { "name": "Shivaraj", "code": "32803" }
+    ]
+  },
+  {
+    "district": "Kaski",
+    "code": "33700",
+    "cities": [
+      { "name": "Pokhara", "code": "33700" },
+      { "name": "Lekhnath", "code": "33701" },
+      { "name": "Sarangkot", "code": "33702" },
+      { "name": "Machhapuchhre", "code": "33703" }
+    ]
+  },
+  {
+    "district": "Kathmandu",
+    "code": "44600",
+    "cities": [
+      { "name": "Kathmandu", "code": "44600" },
+      { "name": "Kirtipur", "code": "44601" },
+      { "name": "Budhanilkantha", "code": "44602" },
+      { "name": "Tarakeshwor", "code": "44603" }
+    ]
+  },
+  {
+    "district": "Kavrepalanchok",
+    "code": "45200",
+    "cities": [
+      { "name": "Dhulikhel", "code": "45200" },
+      { "name": "Banepa", "code": "45201" },
+      { "name": "Panauti", "code": "45202" }
+    ]
+  },
+  {
+    "district": "Khotang",
+    "code": "56200",
+    "cities": [
+      { "name": "Diktel", "code": "56200" },
+      { "name": "Halesi", "code": "56201" },
+      { "name": "Khotehang", "code": "56202" }
+    ]
+  },
+  {
+    "district": "Lalitpur",
+    "code": "44700",
+    "cities": [
+      { "name": "Lalitpur", "code": "44700" },
+      { "name": "Godawari", "code": "44701" },
+      { "name": "Sankhu", "code": "44702" }
+    ]
+  },
+  {
+    "district": "Lamjung",
+    "code": "33600",
+    "cities": [
+      { "name": "Besisahar", "code": "33600" },
+      { "name": "Rainas", "code": "33601" },
+      { "name": "Madhya Lamjung", "code": "33602" }
+    ]
+  },
+  {
+    "district": "Mahottari",
+    "code": "45700",
+    "cities": [
+      { "name": "Jaleshwar", "code": "45700" },
+      { "name": "Bardibas", "code": "45701" },
+      { "name": "Manara", "code": "45702" }
+    ]
+  },
+  {
+    "district": "Makwanpur",
+    "code": "44100",
+    "cities": [
+      { "name": "Hetauda", "code": "44100" },
+      { "name": "Thaha", "code": "44101" },
+      { "name": "Manahari", "code": "44102" }
+    ]
+  },
+  {
+    "district": "Manang",
+    "code": "33500",
+    "cities": [
+      { "name": "Chame", "code": "33500" },
+      { "name": "Ngawal", "code": "33501" },
+      { "name": "Pisang", "code": "33502" }
+    ]
+  },
+  {
+    "district": "Morang",
+    "code": "56600",
+    "cities": [
+      { "name": "Biratnagar", "code": "56600" },
+      { "name": "Rangeli", "code": "56601" },
+      { "name": "Belbari", "code": "56602" },
+      { "name": "Itahari", "code": "56603" }
+    ]
+  },
+  {
+    "district": "Mugu",
+    "code": "21100",
+    "cities": [
+      { "name": "Gamgadhi", "code": "21100" },
+      { "name": "Khatyad", "code": "21101" },
+      { "name": "Mugu", "code": "21102" }
+    ]
+  },
+  {
+    "district": "Mustang",
+    "code": "33100",
+    "cities": [
+      { "name": "Jomsom", "code": "33100" },
+      { "name": "Lo Manthang", "code": "33101" },
+      { "name": "Tangbe", "code": "33102" }
+    ]
+  },
+  {
+    "district": "Myagdi",
+    "code": "33200",
+    "cities": [
+      { "name": "Beni", "code": "33200" },
+      { "name": "Galeshwor", "code": "33201" },
+      { "name": "Malika", "code": "33202" }
+    ]
+  },
+   
+  {
+    "district": "Nawalparasi East",
+    "code": "33000",
+    "cities": [
+      { "name": "Kawasoti", "code": "33000" },
+      { "name": "Gaindakot", "code": "33001" },
+      { "name": "Devchuli", "code": "33002" },
+      { "name": "Ramdi", "code": "33003" },
+      { "name": "Bardaghat", "code": "33004" }
+    ]
+  },
+  {
+    "district": "Nawalparasi West",
+    "code": "32900",
+    "cities": [
+      { "name": "Ramgram", "code": "32900" },
+      { "name": "Sunwal", "code": "32901" },
+      { "name": "Bardaghat", "code": "32902" },
+      { "name": "Sarawal", "code": "32903" }
+    ]
+  },
+  {
+    "district": "Nuwakot",
+    "code": "44900",
+    "cities": [
+      { "name": "Bidur", "code": "44900" },
+      { "name": "Belkot", "code": "44901" },
+      { "name": "Kakani", "code": "44902" },
+      { "name": "Trishuli", "code": "44903" },
+      { "name": "Likhu", "code": "44904" }
+    ]
+  },
+  {
+    "district": "Okhaldhunga",
+    "code": "56100",
+    "cities": [
+      { "name": "Okhaldhunga", "code": "56100" },
+      { "name": "Sunkhani", "code": "56101" },
+      { "name": "Khiji", "code": "56102" },
+      { "name": "Chishankhu", "code": "56103" }
+    ]
+  },
+  {
+    "district": "Palpa",
+    "code": "32500",
+    "cities": [
+      { "name": "Tansen", "code": "32500" },
+      { "name": "Rambha", "code": "32501" },
+      { "name": "Rainadevi Chhahara", "code": "32502" },
+      { "name": "Bagnaskali", "code": "32503" }
+    ]
+  },
+  {
+    "district": "Panchthar",
+    "code": "57400",
+    "cities": [
+      { "name": "Phidim", "code": "57400" },
+      { "name": "Fakphokthum", "code": "57401" },
+      { "name": "Yangwarak", "code": "57402" },
+      { "name": "Tumbewa", "code": "57403" }
+    ]
+  },
+  {
+    "district": "Parbat",
+    "code": "33400",
+    "cities": [
+      { "name": "Kusma", "code": "33400" },
+      { "name": "Phalebas", "code": "33401" },
+      { "name": "Mahashila", "code": "33402" },
+      { "name": "Bhakunde", "code": "33403" }
+    ]
+  },
+  {
+    "district": "Parsa",
+    "code": "44300",
+    "cities": [
+      { "name": "Birgunj", "code": "44300" },
+      { "name": "Pokhariya", "code": "44301" },
+      { "name": "Bahudarmai", "code": "44302" },
+      { "name": "Paterwa Sugauli", "code": "44303" }
+    ]
+  },
+  {
+    "district": "Pyuthan",
+    "code": "22300",
+    "cities": [
+      { "name": "Pyuthan", "code": "22300" },
+      { "name": "Sworgadwari", "code": "22301" },
+      { "name": "Gaumukhi", "code": "22302" },
+      { "name": "Sarumarani", "code": "22303" }
+    ]
+  },
+  {
+    "district": "Ramechhap",
+    "code": "45400",
+    "cities": [
+      { "name": "Manthali", "code": "45400" },
+      { "name": "Khandadevi", "code": "45401" },
+      { "name": "Umkane", "code": "45402" },
+      { "name": "Ramechhap", "code": "45403" }
+    ]
+  },
+  {
+    "district": "Rasuwa",
+    "code": "45000",
+    "cities": [
+      { "name": "Dhunche", "code": "45000" },
+      { "name": "Briddhim", "code": "45001" },
+      { "name": "Gosaikunda", "code": "45002" }
+    ]
+  },
+  {
+    "district": "Rautahat",
+    "code": "44500",
+    "cities": [
+      { "name": "Gaur", "code": "44500" },
+      { "name": "Paroha", "code": "44501" },
+      { "name": "Chandrapur", "code": "44502" },
+      { "name": "Ishanath", "code": "44503" }
+    ]
+  },
+  
+  {
+    "district": "Rolpa",
+    "code": "22100",
+    "cities": [
+      { "name": "Liwang", "code": "22100" },
+      { "name": "Rohachowk", "code": "22101" },
+      { "name": "Sunchhahari", "code": "22102" },
+      { "name": "Madi", "code": "22103" }
+    ]
+  },
+  {
+    "district": "Rukum East",
+    "code": "22200",
+    "cities": [
+      { "name": "Rukumkot", "code": "22200" },
+      { "name": "Sisne", "code": "22201" },
+      { "name": "Bhume", "code": "22202" }
+    ]
+  },
+  {
+    "district": "Rukum West",
+    "code": "22000",
+    "cities": [
+      { "name": "Musikot", "code": "22000" },
+      { "name": "Tribeni", "code": "22001" },
+      { "name": "Sani Bheri", "code": "22002" }
+    ]
+  },
+  {
+    "district": "Rupandehi",
+    "code": "32914",
+    "cities": [
+      { "name": "Bhairahawa", "code": "32900" },
+      { "name": "Butwal", "code": "32901" },
+      { "name": "Siddharthanagar", "code": "32902" },
+      { "name": "Lumbini", "code": "32903" },
+      { "name": "Devdaha", "code": "32904" }
+    ]
+  },
+  {
+    "district": "Salyan",
+    "code": "22200",
+    "cities": [
+      { "name": "Salyan", "code": "22200" },
+      { "name": "Bagchaur", "code": "22201" },
+      { "name": "Shaarda", "code": "22202" }
+    ]
+  },
+  {
+    "district": "Sankhuwasabha",
+    "code": "56900",
+    "cities": [
+      { "name": "Khandbari", "code": "56900" },
+      { "name": "Madi", "code": "56901" },
+      { "name": "Chainpur", "code": "56902" }
+    ]
+  },
+  {
+    "district": "Saptari",
+    "code": "56400",
+    "cities": [
+      { "name": "Rajbiraj", "code": "56400" },
+      { "name": "Kanchanrup", "code": "56401" },
+      { "name": "Bishnupur", "code": "56402" }
+    ]
+  },
+  {
+    "district": "Sarlahi",
+    "code": "45800",
+    "cities": [
+      { "name": "Malangwa", "code": "45800" },
+      { "name": "Parsauni", "code": "45801" },
+      { "name": "Haripur", "code": "45802" }
+    ]
+  },
+  {
+    "district": "Sindhuli",
+    "code": "45900",
+    "cities": [
+      { "name": "Sindhulimadi", "code": "45900" },
+      { "name": "Kamalamai", "code": "45901" },
+      { "name": "Golanjor", "code": "45902" }
+    ]
+  },
+  {
+    "district": "Sindhupalchok",
+    "code": "45300",
+    "cities": [
+      { "name": "Chautara", "code": "45300" },
+      { "name": "Melamchi", "code": "45301" },
+      { "name": "Barhabise", "code": "45302" }
+    ]
+  },
+  {
+    "district": "Siraha",
+    "code": "56500",
+    "cities": [
+      { "name": "Siraha", "code": "56500" },
+      { "name": "Lahan", "code": "56501" },
+      { "name": "Golbazar", "code": "56502" }
+    ]
+  },
+  {
+    "district": "Solukhumbu",
+    "code": "56000",
+    "cities": [
+      { "name": "Salleri", "code": "56000" },
+      { "name": "Phaplu", "code": "56001" },
+      { "name": "Namche", "code": "56002" }
+    ]
+  },
+  {
+    "district": "Sunsari",
+    "code": "56700",
+    "cities": [
+      { "name": "Inaruwa", "code": "56700" },
+      { "name": "Dharan", "code": "56701" },
+      { "name": "Itahari", "code": "56702" },
+      { "name": "Bhokraha", "code": "56703" }
+    ]
+  },
+  {
+    "district": "Surkhet",
+    "code": "21700",
+    "cities": [
+      { "name": "Birendranagar", "code": "21700" },
+      { "name": "Chaukune", "code": "21701" },
+      { "name": "Simta", "code": "21702" }
+    ]
+  },
+  {
+    "district": "Syangja",
+    "code": "33800",
+    "cities": [
+      { "name": "Putalibazar", "code": "33800" },
+      { "name": "Biruwa", "code": "33801" },
+      { "name": "Arjun Chaupari", "code": "33802" }
+    ]
+  },
+  {
+    "district": "Tanahu",
+    "code": "33900",
+    "cities": [
+      { "name": "Damauli", "code": "33900" },
+      { "name": "Bhanu", "code": "33901" },
+      { "name": "Shuklagandaki", "code": "33902" }
+    ]
+  },
+  {
+    "district": "Taplejung",
+    "code": "57500",
+    "cities": [
+      { "name": "Phungling", "code": "57500" },
+      { "name": "Meringden", "code": "57501" },
+      { "name": "Mai", "code": "57502" }
+    ]
+  },
+  {
+    "district": "Tehrathum",
+    "code": "57100",
+    "cities": [
+      { "name": "Myanglung", "code": "57100" },
+      { "name": "Athrai", "code": "57101" },
+      { "name": "Sanghutar", "code": "57102" }
+    ]
+  },
+  {
+    "district": "Udayapur",
+    "code": "56300",
+    "cities": [
+      { "name": "Triyuga", "code": "56300" },
+      { "name": "Belaka", "code": "56301" },
+      { "name": "Katari", "code": "56302" }
+    ]
+  }
+];
+
+const cardContainer = document.getElementById('cardContainer');
+const searchInput = document.getElementById('searchInput');
+const modal = document.getElementById('modal');
+const closeBtn = document.querySelector('.close');
+
+function displayPostalCodes(data){
+    cardContainer.innerHTML = '';
+    data.forEach(item => {
+        const card = document.createElement('div');
+        card.classList.add('card');
+        let cityList = item.cities.map(c=>`<p>${c.name}: ${c.code}</p>`).join('');
+        card.innerHTML = `<h3>${item.district}</h3><p>District Code: ${item.code}</p><div class="city-list">${cityList}</div>`;
+        cardContainer.appendChild(card);
+    });
+}
+
+searchInput.addEventListener('input', ()=>{
+    const term = searchInput.value.toLowerCase();
+    const filtered = postalCodes.filter(item => 
+        item.district.toLowerCase().includes(term) || item.cities.some(c=>c.name.toLowerCase().includes(term))
+    );
+    displayPostalCodes(filtered);
+});
+
+function downloadList(){
+    let content = "Nepal Postal Codes\n\n";
+    postalCodes.forEach(item=>{
+        content += `${item.district}: ${item.code}\n`;
+        item.cities.forEach(c=>content+=`  ${c.name}: ${c.code}\n`);
+    });
+    const blob = new Blob([content], {type:'text/plain'});
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'Nepal_Postal_Codes.txt';
+    link.click();
+}
+
+// Modal show on load
+window.onload = () => { modal.style.display = 'flex'; }
+closeBtn.onclick = () => { modal.style.display = 'none'; }
+window.onclick = e => { if(e.target==modal) modal.style.display='none'; }
+
+// Initial display
+displayPostalCodes(postalCodes);
+</script>
+</body>
+</html>
