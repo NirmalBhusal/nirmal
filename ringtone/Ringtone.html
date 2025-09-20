@@ -1,19 +1,18 @@
 <!doctype html>
 <html lang="en">
 <head>
-
+  <!----ads---->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2396891171506215"
      crossorigin="anonymous"></script>
   
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Ringtone | Find & Download Beautiful Ringtones</title>
+  <title>RingtoneHub — Find & Download Beautiful Ringtones</title>
   <meta name="description" content="Modern, responsive ringtone library — search, preview, download and share mobile ringtones." />
   <!-- Google Fonts -->
-
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-  
-    <!--favicon-->
+
+      <!--favicon-->
 <link rel="apple-touch-icon" sizes="180x180" href="/favico/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favico/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favico/favicon-16x16.png">
@@ -184,6 +183,9 @@
   .btn-ghost { font-size: 12px; padding: 5px 7px; }
   header { gap: 4px; }
 }
+.actions a {
+  text-decoration: none; /* removes underline */
+}
 
   </style>
 </head>
@@ -204,9 +206,9 @@
     <button id="searchBtn" title="Search">Search</button>
   </div>
   <div class="actions" role="navigation" aria-label="site actions">
- <button class="btn-ghost" id="homeBtn">Home</button>
-  <button>Contact</button>
-</div>
+ <a href="/index.html" class="btn-ghost">Home</a>
+<a href="#contact" class="btn-ghost">Contact</a>
+  </div>
 </header>
 
 <main>
@@ -263,24 +265,28 @@
 </div>
 </div>
 <div class="muted">© RingtoneHub 2025. All Rights Reserved.</div>
-</footer>
-</div>
+  <div class="socials" style="display:flex; gap:16px;" id="contact">
+    <!-- Instagram -->
+    <a class="icon" href="https://www.instagram.com/nirmalbhusal89/" target="_blank" title="Instagram">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram" style="width:24px;height:24px;">
+    </a>
 
-<div class="modal-backdrop" id="modalBackdrop">
-  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-    <h3 id="modalTitle">Contact Us</h3>
-    <p class="muted">Have a request or found an issue? Send us a message and we'll reply.</p>
-    <form id="contactForm" style="margin-top:12px;display:grid;gap:10px">
-      <input name="name" placeholder="Your name" required style="padding:10px;border-radius:8px;border:0;background:var(--glass);color:inherit" />
-      <input name="email" placeholder="Email" type="email" required style="padding:10px;border-radius:8px;border:0;background:var(--glass);color:inherit" />
-      <textarea name="message" placeholder="Message" required style="padding:10px;border-radius:8px;border:0;background:var(--glass);color:inherit;min-height:120px"></textarea>
-      <div style="display:flex;gap:8px;justify-content:flex-end">
-        <button type="button" class="btn-ghost" id="modalClose">Close</button>
-        <button type="submit" class="download">Send</button>
-      </div>
-    </form>
+    <!-- YouTube -->
+    <a class="icon" href="https://youtube.com/@aeris-aj?si=hdxFbMUlYUtm_PfM" target="_blank" title="YouTube">
+      <img src="https://www.youtube.com/s/desktop/2ea5cbbe/img/favicon.ico" alt="YouTube" style="width:24px;height:24px;">
+    </a>
+
+    <!-- Gmail / Email -->
+    <a class="icon" href="mailto:nirmalbhusal239@gmail.com" title="Email">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/4/4e/Gmail_Icon.png" alt="Email" style="width:24px;height:24px;">
+    </a>
   </div>
 </div>
+</footer>
+
+</div>
+
+
 
 <script>
 const DATA = [
@@ -411,36 +417,13 @@ document.getElementById('searchBtn').addEventListener('click', ()=>{state.query=
 document.getElementById('sort').addEventListener('change', e=>{state.sort=e.target.value;render();});
 document.getElementById('loadMore').addEventListener('click', ()=>{state.shown += 8;render();});
 
-const modalBackdrop = document.getElementById('modalBackdrop');
-document.getElementById('contactBtn').addEventListener('click', ()=>{modalBackdrop.style.display='flex'});
-document.getElementById('modalClose').addEventListener('click', ()=>{modalBackdrop.style.display='none'});
-document.getElementById('contactForm').addEventListener('submit', e=>{
-  e.preventDefault();
-  const data = new FormData(e.target);
-  const subject = encodeURIComponent('RingtoneHub Contact from '+data.get('name'));
-  const body = encodeURIComponent('Email: '+data.get('email')+"\n\n"+data.get('message'));
-  window.location.href = `mailto:nirmalbhusal239@gmail.com?subject=${subject}&body=${body}`;  
-});
+
+
+
+
 window.addEventListener('keydown', e=>{ if(e.key==='/' && !['INPUT','TEXTAREA'].includes(document.activeElement.tagName)){ e.preventDefault(); document.getElementById('search').focus(); }});
 
 render();
-
-  document.getElementById('homeBtn').addEventListener('click', ()=>{
-  window.location.href = "../index.html"; // change to your homepage filename or "/"
-});
-
 </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
