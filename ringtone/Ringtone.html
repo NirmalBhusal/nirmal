@@ -204,9 +204,9 @@
     <button id="searchBtn" title="Search">Search</button>
   </div>
   <div class="actions" role="navigation" aria-label="site actions">
-    <button class="btn-ghost" id="uploadBtn">Upload</button>
-    <button class="btn-ghost" id="contactBtn">Contact</button>
-  </div>
+  <button class="btn-ghost" id="homeBtn">Home</button>
+  <button class="btn-ghost" id="contactBtn">Contact</button>
+</div>
 </header>
 
 <main>
@@ -421,15 +421,18 @@ document.getElementById('contactForm').addEventListener('submit', e=>{
   const body = encodeURIComponent('Email: '+data.get('email')+"\n\n"+data.get('message'));
   window.location.href = `mailto:nirmalbhusal239@gmail.com?subject=${subject}&body=${body}`;  
 });
-
-document.getElementById('uploadBtn').addEventListener('click', ()=>{alert('Upload feature: In production, implement server-side upload with file type checks and moderation.')});
-
 window.addEventListener('keydown', e=>{ if(e.key==='/' && !['INPUT','TEXTAREA'].includes(document.activeElement.tagName)){ e.preventDefault(); document.getElementById('search').focus(); }});
 
 render();
+
+  document.getElementById('homeBtn').addEventListener('click', ()=>{
+  window.location.href = "index.html"; // change to your homepage filename or "/"
+});
+
 </script>
 </body>
 </html>
+
 
 
 
