@@ -1,26 +1,14 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <!-- ads -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2396891171506215" crossorigin="anonymous"></script>
-  <meta name="monetag" content="39dc43dfa4858eb858261e2f61225154">
-  <script>(function(s){s.dataset.zone='9910680',s.src='https://gizokraijaw.net/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
-  <script>(function(s){s.dataset.zone='9910403',s.src='https://forfrogadiertor.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
-
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>RingtoneHub — Find & Download Beautiful Ringtones</title>
   <meta name="description" content="Modern, responsive ringtone library — search, preview, download and share mobile ringtones." />
+  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-
-  <!--favicon-->
-  <link rel="apple-touch-icon" sizes="180x180" href="/favico/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favico/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/favico/favicon-16x16.png">
-  <link rel="manifest" href="/favico/site.webmanifest">
-
   <style>
-    :root {
+    :root{
       --bg1:#0f172a; 
       --bg2:#0b1220;
       --accent:#7c3aed;
@@ -37,166 +25,400 @@
                   radial-gradient(1000px 500px at 90% 90%, rgba(6,182,212,0.12), transparent 10%),
                   linear-gradient(180deg,var(--bg1),var(--bg2));
       color:#fff;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
       min-height:100%;
       display:flex;flex-direction:column;
     }
-    header{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px;border-radius:14px;background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);backdrop-filter:blur(6px);box-shadow:0 6px 18px rgba(2,6,23,0.6);flex-wrap:wrap}
-    .brand{display:flex;align-items:center;gap:6px}
+    .shape{position:fixed;border-radius:50%;filter:blur(40px);opacity:0.12;pointer-events:none;mix-blend-mode:screen}
+    .s1{width:420px;height:420px;left:-120px;top:-80px;background:linear-gradient(135deg,var(--accent),transparent);animation:float1 8s ease-in-out infinite}
+    .s2{width:300px;height:300px;right:-80px;bottom:-60px;background:linear-gradient(135deg,var(--accent-2),transparent);animation:float2 10s ease-in-out infinite}
+    @keyframes float1{0%{transform:translateY(0) rotate(0)}50%{transform:translateY(18px) rotate(6deg)}100%{transform:translateY(0) rotate(0)}}
+    @keyframes float2{0%{transform:translateY(0) rotate(0)}50%{transform:translateY(-20px) rotate(-6deg)}100%{transform:translateY(0) rotate(0)}}
+    .container{width:min(1200px,94%);margin:32px auto 96px;}
+    header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px;border-radius:14px;background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);backdrop-filter:blur(6px);box-shadow:0 6px 18px rgba(2,6,23,0.6)}
+    .brand{display:flex;align-items:center;gap:12px}
     .logo{width:48px;height:48px;border-radius:10px;background:conic-gradient(from 140deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-weight:800}
     .logo span{font-size:20px}
     .site-title{font-weight:700}
     .site-sub{font-size:12px;color:var(--muted)}
-    .search{flex:1 1 200px;display:flex;align-items:center;gap:6px;min-width:120px}
-    .search input{flex:1 1 auto;min-width:0;padding:8px 10px;border-radius:999px;border:0;background:var(--glass);color:inherit;font-size:14px}
-    .search button{flex:0 0 auto;padding:6px 10px;border-radius:8px;border:0;background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#021025;font-weight:600;cursor:pointer;font-size:13px;white-space:nowrap}
-    .actions{display:flex;gap:6px;flex:0 0 auto}
-    .btn-ghost{padding:6px 10px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:var(--muted);cursor:pointer}
+    .search{flex:1;display:flex;align-items:center;gap:8px;margin-left:18px}
+    .search input{flex:1;padding:12px 14px;border-radius:999px;border:0;background:var(--glass);color:inherit;outline:none;box-shadow:inset 0 1px 0 rgba(255,255,255,0.02)}
+    .search button{padding:10px 14px;border-radius:10px;border:0;background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#021025;font-weight:600;cursor:pointer}
+    .actions{display:flex;gap:8px}
+    
+    .btn-ghost
+    {
+      padding:10px 12px;
+      border-radius:10px;
+      border:1px solid rgba(255,255,255,0.06);
+      background:transparent;
+      color:var(--muted);
+      cursor:pointer
+    }
+    .hero{display:grid;grid-template-columns:1fr 360px;gap:22px;margin-top:20px;align-items:start}
+    .hero-card{padding:20px;border-radius:14px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));box-shadow:0 8px 30px rgba(2,6,23,0.6)}
+    .hero h1{margin:0;font-size:28px}
+    .hero p{color:var(--muted);margin-top:8px}
+    .hero .badges{display:flex;gap:8px;margin-top:16px}
+    .badge{padding:8px 12px;border-radius:999px;background:rgba(255,255,255,0.03);font-weight:600}
+    .filters{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+    .chip{padding:8px 12px;border-radius:999px;background:transparent;border:1px solid rgba(255,255,255,0.04);cursor:pointer}
+    .chip.active{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#021025;border-color:transparent}
     .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-top:18px}
-    .card{background:var(--card);padding:14px;border-radius:12px;display:flex;flex-direction:column;gap:10px}
-    .meta{display:flex;align-items:center;justify-content:space-between}
+    .card{background:var(--card);padding:14px;border-radius:12px;display:flex;flex-direction:column;gap:10px;transition:transform .18s ease,box-shadow .18s ease}
+    .card:hover{transform:translateY(-6px);box-shadow:0 14px 40px rgba(2,6,23,0.6)}
+    .card .meta{display:flex;align-items:center;justify-content:space-between}
     .title{font-weight:700}
     .tags{font-size:12px;color:var(--muted)}
-    .controls{display:flex;gap:8px}
+    .controls{display:flex;align-items:center;gap:8px}
     .play{padding:8px;border-radius:10px;border:0;background:rgba(255,255,255,0.04);cursor:pointer}
     .download{padding:8px 12px;border-radius:10px;border:0;background:linear-gradient(90deg,var(--accent),var(--accent-2));cursor:pointer;font-weight:700}
     footer{margin-top:28px;padding:18px;border-radius:12px;background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);display:flex;justify-content:space-between;align-items:center}
-    .modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.5);display:none;align-items:center;justify-content:center;padding:20px}
-    .modal{background:black;padding:18px;border-radius:12px;max-width:720px;width:100%}
+    @media (max-width:900px){
+      .hero{grid-template-columns:1fr}
+      .hero-card{order:2}
+    }
+    .muted{color:var(--muted)}
+    a{color:inherit}
+    button:focus,input:focus{outline:2px solid rgba(124,58,237,0.18);outline-offset:2px}
+    .skeleton{background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.06), rgba(255,255,255,0.02));height:12px;border-radius:6px}
+    
+    .modal-backdrop
+    {
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,0.5);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:20px
+    }
+    .modal
+    {
+      background: black;
+      padding:18px;
+      border-radius:12px;
+      max-width:720px;
+      width:100%
+    }
     .modal.show{display:flex}
+    .pulse{animation:pulse 2.6s infinite}
+    @keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.02)}100%{transform:scale(1)}}
+
+  header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px;
+  border-radius: 14px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+  backdrop-filter: blur(6px);
+  box-shadow: 0 6px 18px rgba(2,6,23,0.6);
+  flex-wrap: wrap; /* ✅ allows wrapping on small screens */
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 0 0 auto;
+}
+
+.search {
+  flex: 1 1 200px; /* ✅ shrinkable with min width */
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 120px; /* ✅ always leaves room */
+}
+
+.search input {
+  flex: 1 1 auto;
+  min-width: 0; /* ✅ important for shrinking */
+  padding: 8px 10px;
+  border-radius: 999px;
+  border: 0;
+  background: var(--glass);
+  color: inherit;
+  font-size: 14px;
+}
+
+.search button {
+  flex: 0 0 auto;
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 0;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  color: #021025;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.actions {
+  display: flex;
+  gap: 6px;
+  flex: 0 0 auto; /* ✅ fixed size */
+}
+
+/* Mobile responsive */
+@media (max-width: 600px) {
+  .site-sub { display: none; }
+  .search { flex: 1 1 100%; margin-top: 6px; }
+  .search input { font-size: 13px; padding: 6px 8px; }
+  .search button { font-size: 12px; padding: 5px 7px; }
+  .btn-ghost { font-size: 12px; padding: 5px 7px; }
+  header { gap: 4px; }
+}
+.actions a {
+  text-decoration: none; /* removes underline */
+}
+
   </style>
 </head>
 <body>
+<div class="shape s1" aria-hidden></div>
+<div class="shape s2" aria-hidden></div>
 <div class="container">
-<header>
+<header role="banner">
   <div class="brand">
-    <div class="logo"><span>RH</span></div>
+    <div class="logo" aria-hidden><span>RH</span></div>
     <div>
       <div class="site-title">RingtoneHub</div>
       <div class="site-sub">Beautiful ringtones for every mood</div>
     </div>
   </div>
-  <div class="search">
-    <input id="search" placeholder="Search ringtones..." />
-    <button id="searchBtn">Search</button>
+  <div class="search" role="search">
+    <input id="search" placeholder="Search ringtones, tags, moods..." aria-label="Search ringtones" />
+    <button id="searchBtn" title="Search">Search</button>
   </div>
-  <div class="actions">
-    <a href="/index.html" class="btn-ghost">Home</a>
-    <button id="uploadBtn" class="btn-ghost">Upload</button>
+  <div class="actions" role="navigation" aria-label="site actions">
+ <a href="/index.html" class="btn-ghost">Home</a>
+ <div id="uploadSection" style="margin-top:16px"></div>
+<a href="#contact" class="btn-ghost">Contact</a>
   </div>
 </header>
 
 <main>
-  <h2>Ringtone Library (<span id="count">0</span>)</h2>
+<section class="hero">
+  <div class="hero-card">
+    <h1>Discover the perfect ringtone — fast.</h1>
+    <p class="muted">Search, preview and download high-quality mobile ringtones. Curated categories, trending lists, and one-tap downloads.</p>
+    <div class="badges">
+      <div class="badge">Mobile-ready</div>
+      <div class="badge">High-quality</div>
+      <div class="badge">Ad-free (opt-in)</div>
+    </div>
+    <div class="filters" id="filters" aria-label="filter ringtones by category"></div>
+    <div style="margin-top:12px">
+      <label class="muted">Sort</label>
+      <select id="sort" style="margin-left:8px;padding:8px;border-radius:8px;background:var(--glass);border:0;color:inherit">
+        <option value="relevance">Relevance</option>
+        <option value="popular">Popular</option>
+        <option value="newest">Newest</option>
+        <option value="length">Length</option>
+      </select>
+    </div>
+  </div>
+  <aside class="hero-card">
+    <h3 style="margin:0">Trending Now</h3>
+    <p class="muted" style="margin-top:10px">Quick access to the hottest tones people love.</p>
+    <ol id="trending" style="margin-top:12px;padding-left:18px" class="muted"></ol>
+  </aside>
+</section>
+
+<section aria-labelledby="library" style="margin-top:20px">
+  <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+    <h2 id="library" style="margin:0">Ringtone Library</h2>
+    <div class="muted">Showing <span id="count">0</span> results</div>
+  </div>
   <div class="grid" id="grid"></div>
+  <div style="display:flex;justify-content:center;margin-top:18px">
+    <button class="btn-ghost" id="loadMore">Load more</button>
+  </div>
+</section>
 </main>
 
 <footer>
-  <div>© <span id="year"></span> RingtoneHub</div>
-</footer>
+<div>
+<strong>RingtoneHub</strong>
+<div class="muted">© <span id="year"></span> RingtoneHub — Made with care</div>
+<div style="margin-top:10px; display:flex; flex-wrap:wrap; gap:14px; font-size:13px;">
+<a href="policy.html" class="muted">Terms of Service</a>
+<a href="policy.html" class="muted">Privacy Policy</a>
+<a href="policy.html" class="muted">Cookie Policy</a>
+<a href="policy.html" class="muted">Consent Choices</a>
+<a href="policy.html" class="muted">DMCA / Copyright</a>
+<a href="policy.html" class="muted">Accessibility</a>
 </div>
+</div>
+<div class="muted">© RingtoneHub 2025. All Rights Reserved.</div>
+  <div class="socials" style="display:flex; gap:16px;" id="contact">
+    <!-- Instagram -->
+    <a class="icon" href="https://www.instagram.com/nirmalbhusal89/" target="_blank" title="Instagram">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram" style="width:24px;height:24px;">
+    </a>
 
-<!-- Upload Modal -->
-<div class="modal-backdrop" id="uploadModal">
-  <div class="modal">
-    <h3>Upload Ringtone</h3>
-    <p>Only signed-in users can upload new ringtones.</p>
-    <input type="file" id="fileInput" accept="audio/*" />
-    <div style="margin-top:12px;text-align:right;">
-      <button class="btn-ghost" onclick="closeUpload()">Cancel</button>
-      <button class="download" onclick="submitUpload()">Upload</button>
-    </div>
+    <!-- YouTube -->
+    <a class="icon" href="https://youtube.com/@aeris-aj?si=hdxFbMUlYUtm_PfM" target="_blank" title="YouTube">
+      <img src="https://www.youtube.com/s/desktop/2ea5cbbe/img/favicon.ico" alt="YouTube" style="width:24px;height:24px;">
+    </a>
+
+    <!-- Gmail / Email -->
+    <a class="icon" href="mailto:nirmalbhusal239@gmail.com" title="Email">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/4/4e/Gmail_Icon.png" alt="Email" style="width:24px;height:24px;">
+    </a>
   </div>
 </div>
+</footer>
 
-<!-- Download Success Modal -->
+</div>
+
+<!--upload and download popup-->
 <div class="modal-backdrop" id="downloadModal">
   <div class="modal">
-    <h3>Download Successful</h3>
-    <p>All ringtones are uploaded by users or third parties. Copyright belongs to original creators.</p>
-    <div style="text-align:right;">
-      <button class="download" onclick="closeDownload()">OK</button>
-    </div>
+    <h2>Download Successful</h2>
+    <p>All ringtones available on this website are uploaded by users or third parties. 
+    This website does not own or claim any copyright over the ringtones provided. 
+    Copyright and intellectual property rights remain solely with the original creator, uploader, or the respective rights holders. 
+    If you believe any content infringes upon your rights, please contact us for removal.</p>
+    <button onclick="closeModal()">Close</button>
   </div>
 </div>
+<script>
+function showModal(){
+  document.getElementById('downloadModal').classList.add('show');
+}
+function closeModal(){
+  document.getElementById('downloadModal').classList.remove('show');
+}
+</script>
 
-<!-- Login Required Modal -->
-<div class="modal-backdrop" id="loginModal">
-  <div class="modal">
-    <h3>Login Required</h3>
-    <p>You must log in first to use this feature.</p>
-    <div style="text-align:right;">
-      <a href="/index.html" class="download">Go to Login</a>
-    </div>
-  </div>
-</div>
+<div id="uploadSection"></div>
+
+<script>
+const isLoggedIn = false; // true if user is logged in
+
+function renderUploadButton(){
+  const container = document.getElementById('uploadSection');
+  container.innerHTML = '';
+
+  const btn = document.createElement('button');
+  btn.textContent = 'Upload Ringtone';
+  btn.className = 'btn-ghost';
+  btn.onclick = () => {
+    if(isLoggedIn){
+      alert('Upload form goes here'); // replace with actual upload logic
+    } else {
+      alert('You are not eligible. Please login first.');
+    }
+  };
+  
+  container.appendChild(btn);
+}
+
+renderUploadButton();
+</script>
+
 
 <script>
 const DATA = [
-  {id:1,title:'Music',tags:['Sad'],src:'songs/Nepal1.m4a'},
-  {id:2,title:'Calm Bansuri',tags:['Flute'],src:'songs/flute.mp3'}
+  {id:1,title:'Music',tags:['Sad'],src:'songs/Nepal1.m4a',duration:12,pop:904},
+  {id:2, title:'Calm Bansuri', tags:['Flute'], src:'songs/New Flute Ringtone 2021  Best Flute Ringtone  Best Romantic Ringtone  Best Mobile Flute Ringtone.mp3',duration:30,pop:904},
+ {id:3,title:'Music tone',tags:['Romantic'],src:'songs/Instrumental Ringtone  Romantic Ringtone  Popular Romantic Music tone  New Mobile Ringtone 2021.mp3',duration:12,pop:904},
+ {id:4,title:'Calm Bansuri',tags:['Flute'],src:'songs/Krishna flute ringtone  Krishna instrumental ringtone  Radha Krishna flute instrumental ringtone.mp3',duration:26,pop:904},
+ {id:5,title:'Mahadev',tags:['dj remix'],src:'songs/Mahadev Ringtone dj  Mahakal Ringtone dj  Mahadev Instrumental Ringtone  Bholenath Ringtone dj.mp3',duration:48,pop:904},
+ {id:6,title:'Mahadev',tags:['dj remix'],src:'songs/Mahadev ringtone dj remix 2020  mahakal ringtone dj remix  bholenath ringtone dj  bhole ke status.mp3',duration:28,pop:904},
+ {id:7,title:'mahadev',tags:['dj remix'],src:'songs/Mahadev ringtone, Shiv shankar status, mahadev ringtone dj remix, bhole baba status, mahakal status.mp3',duration:30,pop:904},
+ {id:8,title:'Instrumental',tags:['Flute'],src:'songs/New mobile ringtone 2021  new ringtone 2021  new instrumental ringtone 2021  hindi ringtone 2021.mp3',duration:20,pop:904},
+ {id:9,title:'Instrumental',tags:['Romantic'],src:'songs/New Ringtone  Popular Instrumental Ringtone  Romantic Ringtone  Hindi Ringtone  Punjabi Ringtone.mp3',duration:32,pop:904},
+ {id:10,title:'Instrumental',tags:['Romantic'],src:'songs/World Best Instrumental Ringtone  Romantic Instrumental Ringtone  Tujh Bin Instrumental Ringtone.mp3',duration:32,pop:904},
+ {id:11,title:'Shiddat',tags:['Shiddat'],src:'songs/shiddat.mp3',duration:24,pop:904},
+ {id:12,title:'Instrumental',tags:['Romantic'],src:'songs/New Ringtone 2021  New Instrumental Ringtone 2021  Popular Romantic Music Tone  Love Ringtone.mp3',duration:35,pop:904},
+ {id:13,title:'Romantic',tags:['Flute'],src:'songs/New Ringtone  Mobile Ringtone  South BGM Ringtone  Flute Ringtone  Romantic Ringtone  BGM Tone.mp3',duration:29,pop:904},
+  {id:11,title:'Calm Bansuri',tags:['Flute'],src:'songs/sad1.mp3',duration:28,pop:904},
 ];
 
-const state = { data: DATA.slice(), shown: 8 };
+const state = { data: DATA.slice(), shown: 8, filters: new Set(), query: '', sort: 'relevance' };
 const grid = document.getElementById('grid');
 const count = document.getElementById('count');
-document.getElementById('year').textContent = new Date().getFullYear();
+const filtersEl = document.getElementById('filters');
+const trending = document.getElementById('trending');
+const yearEl = document.getElementById('year');
+yearEl.textContent = new Date().getFullYear();
 
-// ✅ login state from localStorage
-let isSignedIn = localStorage.getItem("isSignedIn") === "true";
+const allTags = Array.from(new Set(DATA.flatMap(d=>d.tags))).sort();
+
+function renderChips(){
+  filtersEl.innerHTML='';
+  allTags.forEach(t=>{
+    const btn = document.createElement('button');
+    btn.className='chip'+(state.filters.has(t)?' active':'');
+    btn.textContent=t;
+    btn.onclick = ()=>{ state.filters.has(t)?state.filters.delete(t):state.filters.add(t); render(); };
+    filtersEl.appendChild(btn);
+  });
+}
+
+function renderTrending(){
+  const top = DATA.slice().sort((a,b)=>b.pop-a.pop).slice(0,5);
+  trending.innerHTML='';
+  top.forEach(t=>{const li=document.createElement('li');li.textContent=t.title;trending.appendChild(li)});
+}
 
 function makeCard(item){
-  const c = document.createElement('article');c.className='card';
+  const c = document.createElement('article');c.className='card';c.setAttribute('aria-labelledby','t'+item.id);
   c.innerHTML = `
     <div class="meta">
       <div>
-        <div class="title">${item.title}</div>
-        <div class="tags">${item.tags.join(' • ')}</div>
+        <div id="t${item.id}" class="title">${item.title}</div>
+        <div class="tags muted">${item.tags.join(' • ')} • ${item.duration}s</div>
       </div>
       <div class="controls">
-        <button class="play" data-id="${item.id}">▶</button>
+        <button class="play" data-id="${item.id}" title="Preview">▶</button>
         <a class="download" href="${item.src}" download="${item.title}.mp3" data-id="${item.id}">Download</a>
       </div>
-    </div>`;
+    </div>
+  `;
   return c;
 }
 
+function getFiltered(){
+  const q = state.query.trim().toLowerCase();
+  let res = state.data.slice();
+  if(state.filters.size) res = res.filter(d=>Array.from(state.filters).every(f=>d.tags.includes(f)));
+  if(q) res = res.filter(d=>d.title.toLowerCase().includes(q) || d.tags.join(' ').includes(q));
+  if(state.sort==='popular') res.sort((a,b)=>b.pop-a.pop);
+  else if(state.sort==='newest') res.sort((a,b)=>b.id-b.id);
+  else if(state.sort==='length') res.sort((a,b)=>a.duration-b.duration);
+  return res;
+}
+
 function render(){
+  renderChips();
+  renderTrending();
+  const data = getFiltered();
+  count.textContent = data.length;
   grid.innerHTML='';
-  const toShow = state.data.slice(0,state.shown);
+  const toShow = data.slice(0,state.shown);
   toShow.forEach(item => grid.appendChild(makeCard(item)));
-  count.textContent = toShow.length;
+  attachPlayHandlers();
   attachDownloadHandlers();
+  if(data.length===0) grid.innerHTML='<div class="muted">No ringtones match your search. Try different keywords or clear filters.</div>';
 }
 
-const uploadBtn = document.getElementById('uploadBtn');
-const uploadModal = document.getElementById('uploadModal');
-uploadBtn.addEventListener('click', () => {
-  if (!isSignedIn) {
-    document.getElementById("loginModal").classList.add("show");
-    return;
-  }
-  uploadModal.classList.add("show");
-});
-function closeUpload(){ uploadModal.classList.remove("show"); }
-function submitUpload(){
-  const file = document.getElementById('fileInput').files[0];
-  if(!file){alert("Choose a file first.");return;}
-  alert("Uploaded successfully (demo).");
-  closeUpload();
-}
-
-// ===== Download Popup =====
-const downloadModal = document.getElementById('downloadModal');
-function closeDownload(){ downloadModal.classList.remove("show"); }
+let currentAudio = new Audio();
+let currentPlayingId = null;
 
 function attachDownloadHandlers(){
   document.querySelectorAll('.download').forEach(link=>{
     link.addEventListener('click', e=>{
       e.preventDefault();
-      if (!isSignedIn) {
-        document.getElementById("loginModal").classList.add("show");
-        return;
-      }
+      if(!isLoggedIn){ alert("Please login to download."); return; } // simple login check
+
       const url = link.getAttribute('href');
       const filename = link.getAttribute('download') || 'file.mp3';
       fetch(url)
@@ -204,17 +426,88 @@ function attachDownloadHandlers(){
         .then(blob=>{
           const blobUrl = URL.createObjectURL(blob);
           const a = document.createElement('a');
-          a.href=blobUrl; a.download=filename;
-          document.body.appendChild(a); a.click(); document.body.removeChild(a);
+          a.href = blobUrl; a.download = filename; 
+          document.body.appendChild(a); a.click(); 
+          document.body.removeChild(a);
           URL.revokeObjectURL(blobUrl);
-          downloadModal.classList.add("show");
+          showModal(); // show the download popup
+        })
+        .catch(()=>alert('Server error occurred!'));
+    });
+  });
+}
+
+
+function attachDownloadHandlers(){
+  document.querySelectorAll('.download').forEach(link=>{
+    link.addEventListener('click', e=>{
+      e.preventDefault();
+      const url = link.getAttribute('href');
+      const filename = link.getAttribute('download') || 'file.mp3';
+      fetch(url)
+        .then(resp=>resp.blob())
+        .then(blob=>{
+          const blobUrl = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href=blobUrl; a.download=filename; document.body.appendChild(a); a.click(); document.body.removeChild(a);
+          URL.revokeObjectURL(blobUrl);
         })
         .catch(()=>alert('Server error occured!'));
     });
   });
 }
 
+document.getElementById('search').addEventListener('input', e=>{state.query=e.target.value;render();});
+document.getElementById('searchBtn').addEventListener('click', ()=>{state.query=document.getElementById('search').value;render();});
+document.getElementById('sort').addEventListener('change', e=>{state.sort=e.target.value;render();});
+document.getElementById('loadMore').addEventListener('click', ()=>{state.shown += 8;render();});
+
+
+
+
+
+window.addEventListener('keydown', e=>{ if(e.key==='/' && !['INPUT','TEXTAREA'].includes(document.activeElement.tagName)){ e.preventDefault(); document.getElementById('search').focus(); }});
+
 render();
 </script>
+
+<script type="module">
+  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+  const supabaseUrl = 'YOUR_SUPABASE_URL';
+  const supabaseKey = 'YOUR_SUPABASE_KEY';
+  const supabase = createClient(supabaseUrl, supabaseKey);
+
+  const uploadSection = document.getElementById('uploadSection');
+
+  function renderUploadButton() {
+    uploadSection.innerHTML = '';
+
+    const btn = document.createElement('button');
+    btn.textContent = 'Upload Ringtone';
+    btn.className = 'btn primary';
+    
+    btn.onclick = async () => {
+      const user = supabase.auth.user(); // check current logged-in user
+      if (user) {
+        alert('Upload form goes here!'); // replace with real upload logic
+      } else {
+        alert('You are not eligible. Please login first.');
+        openModal('loginModal'); // optional: open login modal automatically
+      }
+    };
+
+    uploadSection.appendChild(btn);
+  }
+
+  // Render button on page load
+  renderUploadButton();
+
+  // Optional: re-render if auth state changes (login/logout)
+  supabase.auth.onAuthStateChange((_event, session) => {
+    renderUploadButton();
+  });
+</script>
+
 </body>
 </html>
