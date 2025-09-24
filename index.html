@@ -481,22 +481,22 @@ document.getElementById('forgotPassword').addEventListener('click', async e => {
 });
 
     // GOOGLE OAUTH LOGIN
-document.getElementById('googleLogin').addEventListener('click', async e => {
+document.getElementById('googleLogin').addEventListener('click', e => {
   e.preventDefault();
 
-  const { data, error } = await supabase.auth.signInWithOAuth({
-    provider: 'google'
+  supabase.auth.signInWithOAuth({
+    provider: 'google',
+    options: {
+      redirectTo: window.location.origin + '/ringtone.html'
+    }
   });
-
-  if (error) {
-    alert(error.message);
-  }
-  // Supabase will redirect automatically to Google login page
 });
+
 
   </script>
 </body>
 </html>
+
 
 
 
