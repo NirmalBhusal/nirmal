@@ -345,8 +345,12 @@
   <input type="password" name="password" placeholder="Password" required>
   <button type="submit" class="btn primary">Login</button>
 </form>
+<div style="margin-top: 8px; text-align: center;">
+  <button id="googleLogin" class="btn" style="background:#4285F4; color:white;">Sign in with Google</button>
+</div>
+
 <div style="margin-top: 8px; text-align: right;">
-  <a href="#" id="forgotPassword" style="font-size:13px; color:var(--accent);">Forgot Password?</a>
+  <a href="reset-password.html" id="forgotPassword" style="font-size:13px; color:var(--accent);">Forgot Password?</a>
 </div>
 
     </div>
@@ -476,9 +480,24 @@ document.getElementById('forgotPassword').addEventListener('click', async e => {
   else alert("Password reset email sent! Check your inbox.");
 });
 
+    // GOOGLE OAUTH LOGIN
+document.getElementById('googleLogin').addEventListener('click', async e => {
+  e.preventDefault();
+
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: 'google'
+  });
+
+  if (error) {
+    alert(error.message);
+  }
+  // Supabase will redirect automatically to Google login page
+});
+
   </script>
 </body>
 </html>
+
 
 
 
