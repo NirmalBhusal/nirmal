@@ -469,7 +469,8 @@ const uploadModal = document.getElementById('uploadModal');
 const fileInput = document.getElementById('fileInput');
 
 // Fake authentication state (replace with your real login system)
-let isSignedIn = false; // 🚨 Change to true after user logs in
+let isSignedIn = localStorage.getItem("isSignedIn") === "true";
+ // 🚨 Change to true after user logs in
 
 uploadBtn.addEventListener('click', () => {
   if (!isSignedIn) {
@@ -523,9 +524,11 @@ function attachDownloadHandlers(){
   });
 }
 
+  
 </script>
 </body>
 </html>
+
 
 
 
