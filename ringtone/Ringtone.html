@@ -210,10 +210,12 @@
     <input id="search" placeholder="Search ringtones, tags, moods..." aria-label="Search ringtones" />
     <button id="searchBtn" title="Search">Search</button>
   </div>
-  <div class="actions" role="navigation" aria-label="site actions">
- <a href="/index.html" class="btn-ghost">Home</a>
-<a href="#contact" class="btn-ghost">Contact</a>
-  </div>
+ <div class="actions" role="navigation" aria-label="site actions">
+  <a href="/index.html" class="btn-ghost">Home</a>
+  <a href="#contact" class="btn-ghost">Contact</a>
+  <button id="uploadBtn" class="btn-ghost">Upload</button>
+</div>
+
 </header>
 
 <main>
@@ -293,6 +295,35 @@
 
 </div>
 
+<!-- Upload Modal (hidden by default) -->
+<div class="modal-backdrop" id="uploadModal">
+  <div class="modal">
+    <h3>Upload Ringtone</h3>
+    <p class="muted">Only signed-in users can upload new ringtones.</p>
+    <input type="file" id="fileInput" accept="audio/*" style="margin-top:10px;" />
+    <div style="margin-top:12px; display:flex; gap:10px; justify-content:flex-end;">
+      <button class="btn-ghost" onclick="closeUpload()">Cancel</button>
+      <button class="download" onclick="submitUpload()">Upload</button>
+    </div>
+  </div>
+</div>
+
+<!-- Download Success Modal -->
+<div class="modal-backdrop" id="downloadModal">
+  <div class="modal">
+    <h3>Download Successful</h3>
+    <p>
+      All ringtones available on this website are uploaded by users or third parties.<br><br>
+      This website does not own or claim any copyright over the ringtones provided.<br><br>
+      Copyright and intellectual property rights remain solely with the original creator,
+      uploader, or the respective rights holders.<br><br>
+      If you believe any content infringes upon your rights, please contact us for removal.
+    </p>
+    <div style="margin-top:12px; text-align:right;">
+      <button class="download" onclick="closeDownload()">OK</button>
+    </div>
+  </div>
+</div>
 
 
 <script>
@@ -431,9 +462,71 @@ document.getElementById('loadMore').addEventListener('click', ()=>{state.shown +
 window.addEventListener('keydown', e=>{ if(e.key==='/' && !['INPUT','TEXTAREA'].includes(document.activeElement.tagName)){ e.preventDefault(); document.getElementById('search').focus(); }});
 
 render();
+
+  // ===== Upload Button =====
+const uploadBtn = document.getElementById('uploadBtn');
+const uploadModal = document.getElementById('uploadModal');
+const fileInput = document.getElementById('fileInput');
+
+// Fake authentication state (replace with your real login system)
+let isSignedIn = false; // 🚨 Change to true after user logs in
+
+uploadBtn.addEventListener('click', () => {
+  if (!isSignedIn) {
+    alert("You must be signed in to upload a ringtone.");
+    return;
+  }
+  uploadModal.classList.add("show");
+});
+
+function closeUpload() {
+  uploadModal.classList.remove("show");
+}
+
+function submitUpload() {
+  const file = fileInput.files[0];
+  if (!file) {
+    alert("Please select a file to upload.");
+    return;
+  }
+  alert("Ringtone uploaded successfully (demo).");
+  closeUpload();
+}
+
+// ===== Download Popup =====
+const downloadModal = document.getElementById('downloadModal');
+
+function closeDownload() {
+  downloadModal.classList.remove("show");
+}
+
+// Modify download handler to show popup
+function attachDownloadHandlers(){
+  document.querySelectorAll('.download').forEach(link=>{
+    link.addEventListener('click', e=>{
+      e.preventDefault();
+      const url = link.getAttribute('href');
+      const filename = link.getAttribute('download') || 'file.mp3';
+      fetch(url)
+        .then(resp=>resp.blob())
+        .then(blob=>{
+          const blobUrl = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href=blobUrl; a.download=filename;
+          document.body.appendChild(a); a.click(); document.body.removeChild(a);
+          URL.revokeObjectURL(blobUrl);
+          // ✅ Show popup after successful download
+          downloadModal.classList.add("show");
+        })
+        .catch(()=>alert('Server error occured!'));
+    });
+  });
+}
+
 </script>
 </body>
 </html>
+
 
 
 
