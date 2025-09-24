@@ -445,9 +445,24 @@
       if (error) alert(error.message);
       else alert('Login successful!');
     });
+
+    // Example after successful login/signup
+function onLoginSuccess(user) {
+  localStorage.setItem("isSignedIn", "true");
+  localStorage.setItem("username", user.email); // optional
+  // redirect to ringtone page if you want
+  window.location.href = "ringtone.html";
+}
+function logout() {
+  localStorage.removeItem("isSignedIn");
+  localStorage.removeItem("username");
+  window.location.href = "index.html";
+}
+
   </script>
 </body>
 </html>
+
 
 
 
