@@ -365,12 +365,7 @@
   <button id="googleLogin" class="btn" style="background:#4285F4; color:white;">Sign in with Google</button>
 </div>
 
-<div style="margin-top: 8px; text-align: center;">
-  <a href="reset-password.html" id="forgotPassword" style="font-size:13px; color:var(--accent);">Forgot Password?</a>
-</div>
       <!--reset password--->
-<h2>Reset Password</h2>
-<p>Follow this link to reset the password for your user:</p>
 <p><a href="{{ .ConfirmationURL }}">Reset Password</a></p>
     </div>
   </div>
@@ -484,21 +479,6 @@ function logout() {
   localStorage.removeItem("username");
   window.location.href = "index.html";
 }
-
-    // FORGOT PASSWORD
-document.getElementById('forgotPassword').addEventListener('click', async e => {
-  e.preventDefault();
-  const email = prompt("Please enter your email to reset your password:");
-  if (!email) return;
-
-  const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
-    redirectTo: window.location.origin + '/reset-password.html'
-  });
-
-  if (error) alert(error.message);
-  else alert("Password reset email sent! Check your inbox.");
-});
-
     // GOOGLE OAUTH LOGIN
 document.getElementById('googleLogin').addEventListener('click', e => {
   e.preventDefault();
@@ -516,6 +496,7 @@ document.getElementById('googleLogin').addEventListener('click', e => {
 
 </body>
 </html>
+
 
 
 
