@@ -315,7 +315,6 @@ function closeModal(){
   document.getElementById('downloadModal').classList.remove('show');
 }
 </script>
-
 <script>
 const DATA = [
   {id:1,title:'Music',tags:['Sad'],src:'songs/Nepal1.m4a',duration:12,pop:904},
@@ -385,7 +384,7 @@ function makeCard(item){
       </div>
       <div class="controls">
         <button class="play" data-id="${item.id}" title="Preview">▶</button>
-        <a class="download" href="${item.src}" download="${item.title}.mp3" data-id="${item.id}">Download</a>
+        <button class="download" data-id="${item.id}" data-src="${item.src}" data-title="${item.title}">Download</button>
       </div>
     </div>
   `;
@@ -443,50 +442,42 @@ function attachPlayHandlers(){
   });
 }
 
-// Download handling
+// Download modal
 let downloadQueue = null;
 
 function attachDownloadHandlers(){
-  document.querySelectorAll('.download').forEach(link=>{
-    link.addEventListener('click', e=>{
-      e.preventDefault();
+  document.querySelectorAll('.download').forEach(btn=>{
+    btn.onclick = ()=>{
       if(!isLoggedIn){ alert("Please login to download."); return; }
       downloadQueue = {
-        url: link.getAttribute('href'),
-        filename: link.getAttribute('download') || 'file.mp3'
+        url: btn.dataset.src,
+        filename: btn.dataset.title + '.mp3'
       };
-      showModal();
-    });
+      document.getElementById('downloadModal').classList.add('show');
+    }
   });
 }
 
 // Modal buttons
 document.getElementById('agreeDownload').addEventListener('click', ()=>{
   if(downloadQueue){
-    fetch(downloadQueue.url)
-      .then(resp=>resp.blob())
-      .then(blob=>{
-        const blobUrl = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = blobUrl;
-        a.download = downloadQueue.filename;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(blobUrl);
-        closeModal();
-        downloadQueue = null;
-      })
-      .catch(()=>{ alert('Server error occurred!'); closeModal(); downloadQueue = null; });
+    const url = encodeURI(downloadQueue.url); // handle spaces
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = downloadQueue.filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    downloadQueue = null;
+    closeModal();
   }
 });
 
 document.getElementById('cancelDownload').addEventListener('click', ()=>{
-  closeModal();
   downloadQueue = null;
+  closeModal();
 });
 
-function showModal(){ document.getElementById('downloadModal').classList.add('show'); }
 function closeModal(){ document.getElementById('downloadModal').classList.remove('show'); }
 
 // Search button
@@ -508,6 +499,7 @@ render();
 
 </body>
 </html>
+
 
 
 
