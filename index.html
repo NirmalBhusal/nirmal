@@ -362,7 +362,10 @@
   <button type="submit" class="btn primary">Login</button>
 </form>
 <div style="margin-top: 8px; text-align: center;">
-  <button id="googleLogin" class="btn" style="background:#4285F4; color:white;">Sign in with Google</button>
+<button id="googleBtn" class="btn" style="background:#4285F4; color:white;">
+  Sign in with Google
+</button>
+
 </div>
 
       <!--reset password--->
@@ -480,22 +483,22 @@ function logout() {
   window.location.href = "index.html";
 }
     // GOOGLE OAUTH LOGIN
-document.getElementById('googleLogin').addEventListener('click', e => {
+document.getElementById('googleBtn').addEventListener('click', async (e) => {
   e.preventDefault();
-
-  supabase.auth.signInWithOAuth({
+  const { error } = await supabase.auth.signInWithOAuth({
     provider: 'google',
     options: {
-      redirectTo: window.location.origin + 'https://nirmalbhusal.com.np/profile.html'
+      redirectTo: window.location.origin + '/profile.html'
     }
   });
+  if (error) console.error(error.message);
 });
-
 
   </script>
 
 </body>
 </html>
+
 
 
 
