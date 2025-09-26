@@ -341,16 +341,16 @@ const trending = document.getElementById('trending');
 const yearEl = document.getElementById('year');
 yearEl.textContent = new Date().getFullYear();
 
-let isLoggedIn = true; // Change to false to test login restriction
+let isLoggedIn = true; // Set false to test login restriction
+let downloadQueue = null;
 
-const allTags = Array.from(new Set(DATA.flatMap(d=>d.tags))).sort();
-
-// Render category filter chips
-function renderChips(){
+// Render filter chips
+const allTags = Array.from(new Set(DATA.flatMap(d => d.tags))).sort();
+function renderChips() {
   filtersEl.innerHTML = '';
-  allTags.forEach(t=>{
+  allTags.forEach(t => {
     const btn = document.createElement('button');
-    btn.className = 'chip' + (state.filters.has(t)?' active':'');
+    btn.className = 'chip' + (state.filters.has(t) ? ' active' : '');
     btn.textContent = t;
     btn.onclick = () => {
       state.filters.has(t) ? state.filters.delete(t) : state.filters.add(t);
@@ -361,7 +361,7 @@ function renderChips(){
 }
 
 // Render trending ringtones
-function renderTrending(){
+function renderTrending() {
   const top = DATA.slice().sort((a,b)=>b.pop-a.pop).slice(0,5);
   trending.innerHTML = '';
   top.forEach(t=>{
@@ -391,20 +391,19 @@ function makeCard(item){
   return c;
 }
 
-// Apply search, filter, and sorting
+// Filter and sort
 function getFiltered(){
   const q = state.query.trim().toLowerCase();
   let res = state.data.slice();
-  if(state.filters.size) res = res.filter(d=>Array.from(state.filters).every(f=>d.tags.includes(f)));
-  if(q) res = res.filter(d=>d.title.toLowerCase().includes(q) || d.tags.join(' ').toLowerCase().includes(q));
-
+  if(state.filters.size) res = res.filter(d => Array.from(state.filters).every(f => d.tags.includes(f)));
+  if(q) res = res.filter(d => d.title.toLowerCase().includes(q) || d.tags.join(' ').toLowerCase().includes(q));
   if(state.sort==='popular') res.sort((a,b)=>b.pop-a.pop);
   else if(state.sort==='newest') res.sort((a,b)=>b.id-a.id);
   else if(state.sort==='length') res.sort((a,b)=>a.duration-b.duration);
   return res;
 }
 
-// Render all ringtones
+// Render grid
 function render(){
   renderChips();
   renderTrending();
@@ -415,13 +414,12 @@ function render(){
   toShow.forEach(item => grid.appendChild(makeCard(item)));
   attachPlayHandlers();
   attachDownloadHandlers();
-  if(data.length === 0) grid.innerHTML = '<div class="muted">No ringtones match your search. Try different keywords or clear filters.</div>';
+  if(data.length === 0) grid.innerHTML = '<div class="muted">No ringtones match your search.</div>';
 }
 
 // Audio preview
 let currentAudio = new Audio();
 let currentPlayingId = null;
-
 function attachPlayHandlers(){
   document.querySelectorAll('.play').forEach(btn=>{
     btn.onclick = ()=>{
@@ -442,9 +440,7 @@ function attachPlayHandlers(){
   });
 }
 
-// Download modal
-let downloadQueue = null;
-
+// Attach download buttons
 function attachDownloadHandlers(){
   document.querySelectorAll('.download').forEach(btn=>{
     btn.onclick = ()=>{
@@ -458,40 +454,42 @@ function attachDownloadHandlers(){
   });
 }
 
-// Modal buttons
-document.getElementById('agreeDownload').addEventListener('click', ()=>{
+// Modal actions
+document.getElementById('agreeDownload').onclick = async () => {
   if(downloadQueue){
-    const url = encodeURI(downloadQueue.url); // handle spaces
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = downloadQueue.filename;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    downloadQueue = null;
-    closeModal();
+    try{
+      const response = await fetch(downloadQueue.url);
+      const blob = await response.blob();
+      const blobUrl = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = blobUrl;
+      a.download = downloadQueue.filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(blobUrl);
+      downloadQueue = null;
+      closeModal();
+    } catch(e){
+      alert('Download failed.');
+      closeModal();
+    }
   }
-});
+};
 
-document.getElementById('cancelDownload').addEventListener('click', ()=>{
+document.getElementById('cancelDownload').onclick = ()=>{
   downloadQueue = null;
   closeModal();
-});
+};
 
 function closeModal(){ document.getElementById('downloadModal').classList.remove('show'); }
 
-// Search button
-document.getElementById('searchBtn').addEventListener('click', ()=>{
-  state.query = document.getElementById('search').value;
-  render();
-});
+// Search & sort
+document.getElementById('searchBtn').onclick = ()=>{ state.query = document.getElementById('search').value; render(); };
+document.getElementById('sort').onchange = e=>{ state.sort = e.target.value; render(); };
 
-// Sort dropdown
-document.getElementById('sort').addEventListener('change', (e)=>{
-  state.sort = e.target.value;
-  render();
-});
-
+// Initial render
+render();
 // Initial render
 render();
 </script>
@@ -499,6 +497,7 @@ render();
 
 </body>
 </html>
+
 
 
 
