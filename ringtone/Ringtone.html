@@ -316,11 +316,10 @@ function closeModal(){
 }
 </script>
 
-
 <script>
 const DATA = [
   {id:1,title:'Music',tags:['Sad'],src:'songs/Nepal1.m4a',duration:12,pop:904},
-  {id:2, title:'Calm Bansuri', tags:['Flute'], src:'songs/New Flute Ringtone 2021  Best Flute Ringtone  Best Romantic Ringtone  Best Mobile Flute Ringtone.mp3',duration:30,pop:904},
+  {id:2,title:'Calm Bansuri',tags:['Flute'],src:'songs/New Flute Ringtone 2021  Best Flute Ringtone  Best Romantic Ringtone  Best Mobile Flute Ringtone.mp3',duration:30,pop:904},
   {id:3,title:'Music tone',tags:['Romantic'],src:'songs/Instrumental Ringtone  Romantic Ringtone  Popular Romantic Music tone  New Mobile Ringtone 2021.mp3',duration:12,pop:904},
   {id:4,title:'Calm Bansuri',tags:['Flute'],src:'songs/Krishna flute ringtone  Krishna instrumental ringtone  Radha Krishna flute instrumental ringtone.mp3',duration:26,pop:904},
   {id:5,title:'Mahadev',tags:['dj remix'],src:'songs/Mahadev Ringtone dj  Mahakal Ringtone dj  Mahadev Instrumental Ringtone  Bholenath Ringtone dj.mp3',duration:48,pop:904},
@@ -347,33 +346,36 @@ let isLoggedIn = true; // Change to false to test login restriction
 
 const allTags = Array.from(new Set(DATA.flatMap(d=>d.tags))).sort();
 
+// Render category filter chips
 function renderChips(){
-  filtersEl.innerHTML='';
+  filtersEl.innerHTML = '';
   allTags.forEach(t=>{
     const btn = document.createElement('button');
-    btn.className='chip'+(state.filters.has(t)?' active':'');
-    btn.textContent=t;
-    btn.onclick = ()=>{
-      state.filters.has(t)?state.filters.delete(t):state.filters.add(t);
+    btn.className = 'chip' + (state.filters.has(t)?' active':'');
+    btn.textContent = t;
+    btn.onclick = () => {
+      state.filters.has(t) ? state.filters.delete(t) : state.filters.add(t);
       render();
     };
     filtersEl.appendChild(btn);
   });
 }
 
+// Render trending ringtones
 function renderTrending(){
   const top = DATA.slice().sort((a,b)=>b.pop-a.pop).slice(0,5);
-  trending.innerHTML='';
+  trending.innerHTML = '';
   top.forEach(t=>{
-    const li=document.createElement('li');
-    li.textContent=t.title;
+    const li = document.createElement('li');
+    li.textContent = t.title;
     trending.appendChild(li);
   });
 }
 
+// Create a ringtone card
 function makeCard(item){
   const c = document.createElement('article');
-  c.className='card';
+  c.className = 'card';
   c.setAttribute('aria-labelledby','t'+item.id);
   c.innerHTML = `
     <div class="meta">
@@ -390,31 +392,34 @@ function makeCard(item){
   return c;
 }
 
+// Apply search, filter, and sorting
 function getFiltered(){
   const q = state.query.trim().toLowerCase();
   let res = state.data.slice();
   if(state.filters.size) res = res.filter(d=>Array.from(state.filters).every(f=>d.tags.includes(f)));
   if(q) res = res.filter(d=>d.title.toLowerCase().includes(q) || d.tags.join(' ').toLowerCase().includes(q));
-  
+
   if(state.sort==='popular') res.sort((a,b)=>b.pop-a.pop);
-  else if(state.sort==='newest') res.sort((a,b)=>b.id-b.id);
+  else if(state.sort==='newest') res.sort((a,b)=>b.id-a.id);
   else if(state.sort==='length') res.sort((a,b)=>a.duration-b.duration);
   return res;
 }
 
+// Render all ringtones
 function render(){
   renderChips();
   renderTrending();
   const data = getFiltered();
   count.textContent = data.length;
-  grid.innerHTML='';
+  grid.innerHTML = '';
   const toShow = data.slice(0,state.shown);
   toShow.forEach(item => grid.appendChild(makeCard(item)));
   attachPlayHandlers();
   attachDownloadHandlers();
-  if(data.length===0) grid.innerHTML='<div class="muted">No ringtones match your search. Try different keywords or clear filters.</div>';
+  if(data.length === 0) grid.innerHTML = '<div class="muted">No ringtones match your search. Try different keywords or clear filters.</div>';
 }
 
+// Audio preview
 let currentAudio = new Audio();
 let currentPlayingId = null;
 
@@ -423,7 +428,7 @@ function attachPlayHandlers(){
     btn.onclick = ()=>{
       const id = btn.dataset.id;
       const item = DATA.find(d=>d.id==id);
-      if(currentPlayingId===id){
+      if(currentPlayingId === id){
         currentAudio.pause();
         currentPlayingId = null;
         btn.textContent = '▶';
@@ -438,28 +443,24 @@ function attachPlayHandlers(){
   });
 }
 
-
-  //download 
-  let downloadQueue = null; // store file info temporarily
+// Download handling
+let downloadQueue = null;
 
 function attachDownloadHandlers(){
   document.querySelectorAll('.download').forEach(link=>{
     link.addEventListener('click', e=>{
       e.preventDefault();
       if(!isLoggedIn){ alert("Please login to download."); return; }
-
-      // Store file info in queue
       downloadQueue = {
         url: link.getAttribute('href'),
         filename: link.getAttribute('download') || 'file.mp3'
       };
-      // Show modal
       showModal();
     });
   });
 }
 
-// Agree button triggers actual download
+// Modal buttons
 document.getElementById('agreeDownload').addEventListener('click', ()=>{
   if(downloadQueue){
     fetch(downloadQueue.url)
@@ -480,23 +481,34 @@ document.getElementById('agreeDownload').addEventListener('click', ()=>{
   }
 });
 
-// Cancel button just closes modal
 document.getElementById('cancelDownload').addEventListener('click', ()=>{
   closeModal();
   downloadQueue = null;
 });
 
-function showModal(){
-  document.getElementById('downloadModal').classList.add('show');
-}
-function closeModal(){
-  document.getElementById('downloadModal').classList.remove('show');
-}
+function showModal(){ document.getElementById('downloadModal').classList.add('show'); }
+function closeModal(){ document.getElementById('downloadModal').classList.remove('show'); }
 
+// Search button
+document.getElementById('searchBtn').addEventListener('click', ()=>{
+  state.query = document.getElementById('search').value;
+  render();
+});
+
+// Sort dropdown
+document.getElementById('sort').addEventListener('change', (e)=>{
+  state.sort = e.target.value;
+  render();
+});
+
+// Initial render
+render();
 </script>
+
 
 </body>
 </html>
+
 
 
 
