@@ -215,7 +215,6 @@
   </div>
   <div class="actions" role="navigation" aria-label="site actions">
  <a href="/index.html" class="btn-ghost">Home</a>
- <div id="uploadSection" style="margin-top:16px"></div>
 <a href="#contact" class="btn-ghost">Contact</a>
   </div>
 </header>
@@ -315,31 +314,7 @@ function closeModal(){
 }
 </script>
 
-<div id="uploadSection"></div>
 
-<script>
-const isLoggedIn = false; // true if user is logged in
-
-function renderUploadButton(){
-  const container = document.getElementById('uploadSection');
-  container.innerHTML = '';
-
-  const btn = document.createElement('button');
-  btn.textContent = 'Upload Ringtone';
-  btn.className = 'btn-ghost';
-  btn.onclick = () => {
-    if(isLoggedIn){
-      alert('Upload form goes here'); // replace with actual upload logic
-    } else {
-      alert('You are not eligible. Please login first.');
-    }
-  };
-  
-  container.appendChild(btn);
-}
-
-renderUploadButton();
-</script>
 
 
 <script>
@@ -488,46 +463,8 @@ window.addEventListener('keydown', e=>{ if(e.key==='/' && !['INPUT','TEXTAREA'].
 
 render();
 </script>
-
-<script type="module">
-  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
-
-  const supabaseUrl = 'YOUR_SUPABASE_URL';
-  const supabaseKey = 'YOUR_SUPABASE_KEY';
-  const supabase = createClient(supabaseUrl, supabaseKey);
-
-  const uploadSection = document.getElementById('uploadSection');
-
-  function renderUploadButton() {
-    uploadSection.innerHTML = '';
-
-    const btn = document.createElement('button');
-    btn.textContent = 'Upload Ringtone';
-    btn.className = 'btn primary';
-    
-    btn.onclick = async () => {
-      const user = supabase.auth.user(); // check current logged-in user
-      if (user) {
-        alert('Upload form goes here!'); // replace with real upload logic
-      } else {
-        alert('You are not eligible. Please login first.');
-        openModal('loginModal'); // optional: open login modal automatically
-      }
-    };
-
-    uploadSection.appendChild(btn);
-  }
-
-  // Render button on page load
-  renderUploadButton();
-
-  // Optional: re-render if auth state changes (login/logout)
-  supabase.auth.onAuthStateChange((_event, session) => {
-    renderUploadButton();
-  });
-</script>
-
 </body>
 </html>
+
 
 
