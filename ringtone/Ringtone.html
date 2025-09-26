@@ -297,14 +297,16 @@
 <!--upload and download popup-->
 <div class="modal-backdrop" id="downloadModal">
   <div class="modal">
-    <h2>Download Successful</h2>
-    <p>All ringtones available on this website are uploaded by users or third parties. 
-    This website does not own or claim any copyright over the ringtones provided. 
-    Copyright and intellectual property rights remain solely with the original creator, uploader, or the respective rights holders. 
-    If you believe any content infringes upon your rights, please contact us for removal.</p>
-    <button onclick="closeModal()">Close</button>
+    <h2>Confirm Download</h2>
+    <p>By downloading, you agree that all ringtones are uploaded by users or third parties. 
+       This website does not own the copyright. Proceed if you accept these terms.</p>
+    <div style="margin-top:12px; display:flex; justify-content:flex-end; gap:10px;">
+      <button id="cancelDownload">Cancel</button>
+      <button id="agreeDownload">Agree & Download</button>
+    </div>
   </div>
 </div>
+
 <script>
 function showModal(){
   document.getElementById('downloadModal').classList.add('show');
@@ -436,35 +438,54 @@ function attachPlayHandlers(){
   });
 }
 
+
+  //download 
+  let downloadQueue = null; // store file info temporarily
+
 function attachDownloadHandlers(){
   document.querySelectorAll('.download').forEach(link=>{
     link.addEventListener('click', e=>{
       e.preventDefault();
       if(!isLoggedIn){ alert("Please login to download."); return; }
 
-      const url = link.getAttribute('href');
-      const filename = link.getAttribute('download') || 'file.mp3';
-      fetch(url)
-        .then(resp=>resp.blob())
-        .then(blob=>{
-          const blobUrl = URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = blobUrl;
-          a.download = filename;
-          document.body.appendChild(a);
-          a.click();
-          document.body.removeChild(a);
-          URL.revokeObjectURL(blobUrl);
-
-          // Show the modal after successful download
-          showModal();
-        })
-        .catch(()=>alert('Server error occurred!'));
+      // Store file info in queue
+      downloadQueue = {
+        url: link.getAttribute('href'),
+        filename: link.getAttribute('download') || 'file.mp3'
+      };
+      // Show modal
+      showModal();
     });
   });
 }
 
-// Modal control
+// Agree button triggers actual download
+document.getElementById('agreeDownload').addEventListener('click', ()=>{
+  if(downloadQueue){
+    fetch(downloadQueue.url)
+      .then(resp=>resp.blob())
+      .then(blob=>{
+        const blobUrl = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = blobUrl;
+        a.download = downloadQueue.filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(blobUrl);
+        closeModal();
+        downloadQueue = null;
+      })
+      .catch(()=>{ alert('Server error occurred!'); closeModal(); downloadQueue = null; });
+  }
+});
+
+// Cancel button just closes modal
+document.getElementById('cancelDownload').addEventListener('click', ()=>{
+  closeModal();
+  downloadQueue = null;
+});
+
 function showModal(){
   document.getElementById('downloadModal').classList.add('show');
 }
@@ -472,39 +493,11 @@ function closeModal(){
   document.getElementById('downloadModal').classList.remove('show');
 }
 
-// Event listeners
-document.getElementById('search').addEventListener('input', e=>{
-  state.query=e.target.value;
-  render();
-});
-
-document.getElementById('searchBtn').addEventListener('click', ()=>{
-  state.query=document.getElementById('search').value;
-  render();
-});
-
-document.getElementById('sort').addEventListener('change', e=>{
-  state.sort=e.target.value;
-  render();
-});
-
-document.getElementById('loadMore').addEventListener('click', ()=>{
-  state.shown += 8;
-  render();
-});
-
-window.addEventListener('keydown', e=>{
-  if(e.key==='/' && !['INPUT','TEXTAREA'].includes(document.activeElement.tagName)){
-    e.preventDefault();
-    document.getElementById('search').focus();
-  }
-});
-
-render();
 </script>
 
 </body>
 </html>
+
 
 
 
