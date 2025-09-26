@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Profile Page</title>
+</head>
+<body style="font-family: sans-serif; text-align: center; padding: 50px;">
+  <h2>Profile</h2>
+  <div id="user-info">Loading user...</div>
+  <button id="logout">Logout</button>
+
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+    const supabaseUrl = 'https://YOUR_PROJECT_ID.supabase.co';
+    const supabaseAnonKey = 'YOUR_PUBLIC_ANON_KEY';
+    const supabase = createClient(supabaseUrl, supabaseAnonKey);
+
+    // Get current user
+    const { data: { user } } = await supabase.auth.getUser();
+    if (user) {
+      document.getElementById('user-info').textContent = 
+        `Signed in as ${user.email}`;
+    } else {
+      document.getElementById('user-info').textContent = 'Not signed in';
+    }
+
+    // Logout button
+    document.getElementById('logout').addEventListener('click', async () => {
+      await supabase.auth.signOut();
+      window.location.href = '/';
+    });
+  </script>
+</body>
+</html>
