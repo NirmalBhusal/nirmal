@@ -430,7 +430,7 @@
   <script type="module">
     import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
-    const supabaseUrl = 'https://fpqagfqnagzyhhapgowk.supabase.co/auth/v1/callback';
+    const supabaseUrl = 'https://fpqagfqnagzyhhapgowk.supabase.co';
     const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZwcWFnZnFuYWd6eWhoYXBnb3drIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgzNDQ5NjgsImV4cCI6MjA3MzkyMDk2OH0.q8NHSoW1UT-YBXfVGiW6VI-wVFzzS8QEhiInlqlSjeA';
     const supabase = createClient(supabaseUrl, supabaseKey);
 
@@ -486,7 +486,7 @@ document.getElementById('googleLogin').addEventListener('click', e => {
   supabase.auth.signInWithOAuth({
     provider: 'google',
     options: {
-      redirectTo: window.location.origin + '/ringtone.html'
+      redirectTo: window.location.origin + 'https://nirmalbhusal.com.np'
     }
   });
 });
@@ -496,6 +496,7 @@ document.getElementById('googleLogin').addEventListener('click', e => {
 
 </body>
 </html>
+
 
 
 
