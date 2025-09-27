@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -6,14 +5,16 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>RingtoneHub — Find & Download Beautiful Ringtones</title>
   <meta name="description" content="Modern, responsive ringtone library — search, preview, download and share mobile ringtones." />
+
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 
-       <!--favicon-->
-<link rel="apple-touch-icon" sizes="180x180" href="/favico/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favico/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favico/favicon-16x16.png">
-<link rel="manifest" href="/favico/site.webmanifest">
+  <!-- Favicon -->
+  <link rel="apple-touch-icon" sizes="180x180" href="/favico/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favico/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favico/favicon-16x16.png">
+  <link rel="manifest" href="/favico/site.webmanifest">
+
   <style>
     :root{
       --bg1:#0f172a; 
@@ -43,26 +44,37 @@
     @keyframes float1{0%{transform:translateY(0) rotate(0)}50%{transform:translateY(18px) rotate(6deg)}100%{transform:translateY(0) rotate(0)}}
     @keyframes float2{0%{transform:translateY(0) rotate(0)}50%{transform:translateY(-20px) rotate(-6deg)}100%{transform:translateY(0) rotate(0)}}
     .container{width:min(1200px,94%);margin:32px auto 96px;}
-    header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px;border-radius:14px;background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);backdrop-filter:blur(6px);box-shadow:0 6px 18px rgba(2,6,23,0.6)}
-    .brand{display:flex;align-items:center;gap:12px}
+    
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 16px;
+      border-radius: 14px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+      backdrop-filter: blur(6px);
+      box-shadow: 0 6px 18px rgba(2,6,23,0.6);
+      flex-wrap: wrap;
+    }
+    .brand { display: flex; align-items: center; gap: 10px; flex: 0 0 auto; }
     .logo{width:48px;height:48px;border-radius:10px;background:conic-gradient(from 140deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-weight:800}
     .logo span{font-size:20px}
-    .site-title{font-weight:700}
-    .site-sub{font-size:12px;color:var(--muted)}
-    .search{flex:1;display:flex;align-items:center;gap:8px;margin-left:18px}
-    .search input{flex:1;padding:12px 14px;border-radius:999px;border:0;background:var(--glass);color:inherit;outline:none;box-shadow:inset 0 1px 0 rgba(255,255,255,0.02)}
-    .search button{padding:10px 14px;border-radius:10px;border:0;background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#021025;font-weight:600;cursor:pointer}
-    .actions{display:flex;gap:8px}
+    .site-title { font-weight:700; font-size:16px }
+    .site-sub { font-size:12px; color: var(--muted) }
     
-    .btn-ghost
-    {
-      padding:10px 12px;
-      border-radius:10px;
-      border:1px solid rgba(255,255,255,0.06);
-      background:transparent;
-      color:var(--muted);
-      cursor:pointer
+    .search {
+      flex: 1 1 280px;
+      display:flex; align-items:center; gap:8px; min-width:160px;
     }
+    .search input { flex:1 1 auto; padding:8px 12px; border-radius:999px; border:0; background:var(--glass); color:inherit; font-size:14px; min-width:0; }
+    .search button { flex:0 0 auto; padding:8px 12px; border-radius:8px; border:0; background:linear-gradient(90deg,var(--accent),var(--accent-2)); color:#021025; font-weight:600; cursor:pointer; font-size:14px; white-space:nowrap; }
+
+    .actions { display:flex; gap:8px; flex:0 0 auto; }
+    .actions a { text-decoration:none; }
+    
+    .btn-ghost { padding:10px 12px; border-radius:10px; border:1px solid rgba(255,255,255,0.06); background:transparent; color:var(--muted); cursor:pointer }
+
     .hero{display:grid;grid-template-columns:1fr 360px;gap:22px;margin-top:20px;align-items:start}
     .hero-card{padding:20px;border-radius:14px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));box-shadow:0 8px 30px rgba(2,6,23,0.6)}
     .hero h1{margin:0;font-size:28px}
@@ -72,6 +84,7 @@
     .filters{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
     .chip{padding:8px 12px;border-radius:999px;background:transparent;border:1px solid rgba(255,255,255,0.04);cursor:pointer}
     .chip.active{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#021025;border-color:transparent}
+
     .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-top:18px}
     .card{background:var(--card);padding:14px;border-radius:12px;display:flex;flex-direction:column;gap:10px;transition:transform .18s ease,box-shadow .18s ease}
     .card:hover{transform:translateY(-6px);box-shadow:0 14px 40px rgba(2,6,23,0.6)}
@@ -81,242 +94,132 @@
     .controls{display:flex;align-items:center;gap:8px}
     .play{padding:8px;border-radius:10px;border:0;background:rgba(255,255,255,0.04);cursor:pointer}
     .download{padding:8px 12px;border-radius:10px;border:0;background:linear-gradient(90deg,var(--accent),var(--accent-2));cursor:pointer;font-weight:700}
-    footer{margin-top:28px;padding:18px;border-radius:12px;background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);display:flex;justify-content:space-between;align-items:center}
-    @media (max-width:900px){
-      .hero{grid-template-columns:1fr}
-      .hero-card{order:2}
-    }
+
+    footer{margin-top:28px;padding:18px;border-radius:12px;background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap}
     .muted{color:var(--muted)}
     a{color:inherit}
     button:focus,input:focus{outline:2px solid rgba(124,58,237,0.18);outline-offset:2px}
-    .skeleton{background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.06), rgba(255,255,255,0.02));height:12px;border-radius:6px}
-    
-    .modal-backdrop
-    {
-      position:fixed;
-      inset:0;
-      background:rgba(0,0,0,0.5);
-      display:none;
-      align-items:center;
-      justify-content:center;
-      padding:20px
-    }
-    .modal
-    {
-      background: black;
-      padding:18px;
-      border-radius:12px;
-      max-width:720px;
-      width:100%
-    }
+    .modal-backdrop { position:fixed; inset:0; background:rgba(0,0,0,0.5); display:none; align-items:center; justify-content:center; padding:20px }
+    .modal { background:black; padding:18px; border-radius:12px; max-width:720px; width:100% }
     .modal.show{display:flex}
-    .pulse{animation:pulse 2.6s infinite}
     @keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.02)}100%{transform:scale(1)}}
+    .pulse{animation:pulse 2.6s infinite}
 
- header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 12px 16px;
-  border-radius: 14px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
-  backdrop-filter: blur(6px);
-  box-shadow: 0 6px 18px rgba(2,6,23,0.6);
-  flex-wrap: wrap; /* ✅ allows wrapping on small screens */
-}
-
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex: 0 0 auto;
-}
-
-.site-title {
-  font-weight: 700;
-  font-size: 16px;
-}
-
-.site-sub {
-  font-size: 12px;
-  color: var(--muted);
-}
-
-.search {
-  flex: 1 1 280px; /* ✅ take available space */
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  min-width: 160px;
-}
-
-.search input {
-  flex: 1 1 auto;
-  padding: 8px 12px;
-  border-radius: 999px;
-  border: 0;
-  background: var(--glass);
-  color: inherit;
-  font-size: 14px;
-  min-width: 0; /* ✅ fix flex shrinking */
-}
-
-.search button {
-  flex: 0 0 auto;
-  padding: 8px 12px;
-  border-radius: 8px;
-  border: 0;
-  background: linear-gradient(90deg, var(--accent), var(--accent-2));
-  color: #021025;
-  font-weight: 600;
-  cursor: pointer;
-  font-size: 14px;
-  white-space: nowrap;
-}
-
-.actions {
-  display: flex;
-  gap: 8px;
-  flex: 0 0 auto;
-}
-
-.actions a {
-  text-decoration: none;
-}
-
-/* ✅ Mobile responsive */
-@media (max-width: 600px) {
-  .site-sub { display: none; }
-  .search { flex: 1 1 100%; order: 3; margin-top: 6px; }
-  .search input { font-size: 13px; padding: 6px 10px; }
-  .search button { font-size: 12px; padding: 6px 10px; }
-  .btn-ghost { font-size: 12px; padding: 6px 8px; }
-  header { gap: 6px; }
-}
-
-
+    @media (max-width:900px){ .hero{grid-template-columns:1fr} .hero-card{order:2} }
+    @media (max-width:600px){
+      .site-sub{display:none}
+      .search{flex:1 1 100%;order:3;margin-top:6px}
+      .search input{font-size:13px;padding:6px 10px}
+      .search button{font-size:12px;padding:6px 10px}
+      .btn-ghost{font-size:12px;padding:6px 8px}
+      header{gap:6px}
+    }
   </style>
 </head>
 <body>
 <div class="shape s1" aria-hidden></div>
 <div class="shape s2" aria-hidden></div>
 <div class="container">
-<header role="banner">
-  <div class="brand">
-    <div class="logo" aria-hidden><span>RH</span></div>
+  <header role="banner">
+    <div class="brand">
+      <div class="logo" aria-hidden><span>RH</span></div>
+      <div>
+        <div class="site-title">RingtoneHub</div>
+        <div class="site-sub">Beautiful ringtones for every mood</div>
+      </div>
+    </div>
+    <div class="search" role="search">
+      <input id="search" placeholder="Search ringtones, tags, moods..." aria-label="Search ringtones" />
+      <button id="searchBtn" title="Search">Search</button>
+    </div>
+    <div class="actions" role="navigation" aria-label="site actions">
+      <a href="/index.html" class="btn-ghost">Home</a>
+      <a href="#contact" class="btn-ghost">Contact</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-card">
+        <h1>Discover the perfect ringtone — fast.</h1>
+        <p class="muted">Search, preview and download high-quality mobile ringtones. Curated categories, trending lists, and one-tap downloads.</p>
+        <div class="badges">
+          <div class="badge">Mobile-ready</div>
+          <div class="badge">High-quality</div>
+          <div class="badge">Ad-free (opt-in)</div>
+        </div>
+        <div class="filters" id="filters" aria-label="filter ringtones by category"></div>
+        <div style="margin-top:12px">
+          <label class="muted">Sort</label>
+          <select id="sort" style="margin-left:8px;padding:8px;border-radius:8px;background:var(--glass);border:0;color:inherit">
+            <option value="relevance">Relevance</option>
+            <option value="popular">Popular</option>
+            <option value="newest">Newest</option>
+            <option value="length">Length</option>
+          </select>
+        </div>
+      </div>
+      <aside class="hero-card">
+        <h3 style="margin:0">Trending Now</h3>
+        <p class="muted" style="margin-top:10px">Quick access to the hottest tones people love.</p>
+        <ol id="trending" style="margin-top:12px;padding-left:18px" class="muted"></ol>
+      </aside>
+    </section>
+
+    <section aria-labelledby="library" style="margin-top:20px">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+        <h2 id="library" style="margin:0">Ringtone Library</h2>
+        <div class="muted">Showing <span id="count">0</span> results</div>
+      </div>
+      <div class="grid" id="grid"></div>
+      <div style="display:flex;justify-content:center;margin-top:18px">
+        <button class="btn-ghost" id="loadMore">Load more</button>
+      </div>
+    </section>
+  </main>
+
+  <footer>
     <div>
-      <div class="site-title">RingtoneHub</div>
-      <div class="site-sub">Beautiful ringtones for every mood</div>
+      <strong>RingtoneHub</strong>
+      <div class="muted">© <span id="year"></span> RingtoneHub — Made with care</div>
+      <div style="margin-top:10px; display:flex; flex-wrap:wrap; gap:14px; font-size:13px;">
+        <a href="policy.html" class="muted">Terms of Service</a>
+        <a href="policy.html" class="muted">Privacy Policy</a>
+        <a href="policy.html" class="muted">Cookie Policy</a>
+        <a href="policy.html" class="muted">Consent Choices</a>
+        <a href="policy.html" class="muted">DMCA / Copyright</a>
+        <a href="policy.html" class="muted">Accessibility</a>
+      </div>
     </div>
-  </div>
-  <div class="search" role="search">
-    <input id="search" placeholder="Search ringtones, tags, moods..." aria-label="Search ringtones" />
-    <button id="searchBtn" title="Search">Search</button>
-  </div>
-  <div class="actions" role="navigation" aria-label="site actions">
- <a href="/index.html" class="btn-ghost">Home</a>
-<a href="#contact" class="btn-ghost">Contact</a>
-  </div>
-</header>
-
-<main>
-<section class="hero">
-  <div class="hero-card">
-    <h1>Discover the perfect ringtone — fast.</h1>
-    <p class="muted">Search, preview and download high-quality mobile ringtones. Curated categories, trending lists, and one-tap downloads.</p>
-    <div class="badges">
-      <div class="badge">Mobile-ready</div>
-      <div class="badge">High-quality</div>
-      <div class="badge">Ad-free (opt-in)</div>
+    <div class="muted">© RingtoneHub 2025. All Rights Reserved.</div>
+    <div class="socials" style="display:flex; gap:16px;" id="contact">
+      <a class="icon" href="https://www.instagram.com/nirmalbhusal89/" target="_blank" title="Instagram">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram" style="width:24px;height:24px;">
+      </a>
+      <a class="icon" href="https://youtube.com/@aeris-aj?si=hdxFbMUlYUtm_PfM" target="_blank" title="YouTube">
+        <img src="https://www.youtube.com/s/desktop/2ea5cbbe/img/favicon.ico" alt="YouTube" style="width:24px;height:24px;">
+      </a>
+      <a class="icon" href="mailto:nirmalbhusal239@gmail.com" title="Email">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/4/4e/Gmail_Icon.png" alt="Email" style="width:24px;height:24px;">
+      </a>
     </div>
-    <div class="filters" id="filters" aria-label="filter ringtones by category"></div>
-    <div style="margin-top:12px">
-      <label class="muted">Sort</label>
-      <select id="sort" style="margin-left:8px;padding:8px;border-radius:8px;background:var(--glass);border:0;color:inherit">
-        <option value="relevance">Relevance</option>
-        <option value="popular">Popular</option>
-        <option value="newest">Newest</option>
-        <option value="length">Length</option>
-      </select>
-    </div>
-  </div>
-  <aside class="hero-card">
-    <h3 style="margin:0">Trending Now</h3>
-    <p class="muted" style="margin-top:10px">Quick access to the hottest tones people love.</p>
-    <ol id="trending" style="margin-top:12px;padding-left:18px" class="muted"></ol>
-  </aside>
-</section>
-
-<section aria-labelledby="library" style="margin-top:20px">
-  <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
-    <h2 id="library" style="margin:0">Ringtone Library</h2>
-    <div class="muted">Showing <span id="count">0</span> results</div>
-  </div>
-  <div class="grid" id="grid"></div>
-  <div style="display:flex;justify-content:center;margin-top:18px">
-    <button class="btn-ghost" id="loadMore">Load more</button>
-  </div>
-</section>
-</main>
-
-<footer>
-<div>
-<strong>RingtoneHub</strong>
-<div class="muted">© <span id="year"></span> RingtoneHub — Made with care</div>
-<div style="margin-top:10px; display:flex; flex-wrap:wrap; gap:14px; font-size:13px;">
-<a href="policy.html" class="muted">Terms of Service</a>
-<a href="policy.html" class="muted">Privacy Policy</a>
-<a href="policy.html" class="muted">Cookie Policy</a>
-<a href="policy.html" class="muted">Consent Choices</a>
-<a href="policy.html" class="muted">DMCA / Copyright</a>
-<a href="policy.html" class="muted">Accessibility</a>
-</div>
-</div>
-<div class="muted">© RingtoneHub 2025. All Rights Reserved.</div>
-  <div class="socials" style="display:flex; gap:16px;" id="contact">
-    <!-- Instagram -->
-    <a class="icon" href="https://www.instagram.com/nirmalbhusal89/" target="_blank" title="Instagram">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram" style="width:24px;height:24px;">
-    </a>
-
-    <!-- YouTube -->
-    <a class="icon" href="https://youtube.com/@aeris-aj?si=hdxFbMUlYUtm_PfM" target="_blank" title="YouTube">
-      <img src="https://www.youtube.com/s/desktop/2ea5cbbe/img/favicon.ico" alt="YouTube" style="width:24px;height:24px;">
-    </a>
-
-    <!-- Gmail / Email -->
-    <a class="icon" href="mailto:nirmalbhusal239@gmail.com" title="Email">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/4/4e/Gmail_Icon.png" alt="Email" style="width:24px;height:24px;">
-    </a>
-  </div>
-</div>
-</footer>
-
+  </footer>
 </div>
 
-<!--upload and download popup-->
+<!-- Download modal -->
 <div class="modal-backdrop" id="downloadModal">
   <div class="modal">
-    <h2>Download Successful</h2>
-    <p>All ringtones available on this website are uploaded by users or third parties. 
-    This website does not own or claim any copyright over the ringtones provided. 
-    Copyright and intellectual property rights remain solely with the original creator, uploader, or the respective rights holders. 
-    If you believe any content infringes upon your rights, please contact us for removal.</p>
-    <button onclick="closeModal()">Close</button>
+    <h2>Copyright Notice</h2>
+    <p>This ringtone is copyright-protected. You must have the right to download and use it. Do not redistribute or claim as your own.</p>
+    <div style="display:flex;justify-content:flex-end;gap:12px;margin-top:16px;">
+      <button onclick="closeModal()">Cancel</button>
+      <button id="agreeDownload">Agree & Download</button>
+    </div>
   </div>
 </div>
-<script>
-function showModal(){
-  document.getElementById('downloadModal').classList.add('show');
-}
-function closeModal(){
-  document.getElementById('downloadModal').classList.remove('show');
-}
-</script>
-
 
 <script>
+/* DATA */
 const DATA = [
   {id:1,title:'Music',tags:['Sad'],src:'songs/Nepal1.m4a',duration:12,pop:904},
   {id:2, title:'Calm Bansuri', tags:['Flute'], src:'songs/New Flute Ringtone 2021  Best Flute Ringtone  Best Romantic Ringtone  Best Mobile Flute Ringtone.mp3',duration:30,pop:904},
@@ -334,6 +237,7 @@ const DATA = [
   {id:14,title:'Calm Bansuri',tags:['Flute'],src:'songs/sad1.mp3',duration:28,pop:904},
 ];
 
+/* STATE */
 const state = { data: DATA.slice(), shown: 8, filters: new Set(), query: '', sort: 'relevance' };
 const grid = document.getElementById('grid');
 const count = document.getElementById('count');
@@ -341,11 +245,11 @@ const filtersEl = document.getElementById('filters');
 const trending = document.getElementById('trending');
 const yearEl = document.getElementById('year');
 yearEl.textContent = new Date().getFullYear();
+let isLoggedIn = true;
+let pendingDownload = null;
 
-let isLoggedIn = true; // Change to false to test login restriction
-
+/* TAGS */
 const allTags = Array.from(new Set(DATA.flatMap(d=>d.tags))).sort();
-
 function renderChips(){
   filtersEl.innerHTML='';
   allTags.forEach(t=>{
@@ -360,16 +264,15 @@ function renderChips(){
   });
 }
 
+/* TRENDING */
 function renderTrending(){
-  const top = DATA.slice().sort((a,b)=>b.pop-a.pop).slice(0,5);
   trending.innerHTML='';
-  top.forEach(t=>{
-    const li=document.createElement('li');
-    li.textContent=t.title;
-    trending.appendChild(li);
+  DATA.slice().sort((a,b)=>b.pop-a.pop).slice(0,5).forEach(t=>{
+    const li=document.createElement('li'); li.textContent=t.title; trending.appendChild(li);
   });
 }
 
+/* CARD */
 function makeCard(item){
   const c = document.createElement('article');
   c.className='card';
@@ -381,132 +284,101 @@ function makeCard(item){
         <div class="tags muted">${item.tags.join(' • ')} • ${item.duration}s</div>
       </div>
       <div class="controls">
-        <button class="play" data-id="${item.id}" title="Preview">▶</button>
-        <a class="download" href="${item.src}" download="${item.title}.mp3" data-id="${item.id}">Download</a>
+        <button class="play" data-id="${item.id}" title="Preview" aria-label="Preview ${item.title}">▶</button>
+        <a class="download" href="${item.src}" download="${item.title}.mp3" data-id="${item.id}" aria-label="Download ${item.title}">Download</a>
       </div>
     </div>
   `;
   return c;
 }
 
+/* FILTER & SORT */
 function getFiltered(){
   const q = state.query.trim().toLowerCase();
   let res = state.data.slice();
   if(state.filters.size) res = res.filter(d=>Array.from(state.filters).every(f=>d.tags.includes(f)));
   if(q) res = res.filter(d=>d.title.toLowerCase().includes(q) || d.tags.join(' ').toLowerCase().includes(q));
-  
   if(state.sort==='popular') res.sort((a,b)=>b.pop-a.pop);
   else if(state.sort==='newest') res.sort((a,b)=>b.id-b.id);
   else if(state.sort==='length') res.sort((a,b)=>a.duration-b.duration);
   return res;
 }
 
+/* RENDER */
 function render(){
-  renderChips();
-  renderTrending();
-  const data = getFiltered();
-  count.textContent = data.length;
+  renderChips(); renderTrending();
+  const data = getFiltered(); count.textContent = data.length;
   grid.innerHTML='';
-  const toShow = data.slice(0,state.shown);
-  toShow.forEach(item => grid.appendChild(makeCard(item)));
-  attachPlayHandlers();
-  attachDownloadHandlers();
+  data.slice(0,state.shown).forEach(item=>grid.appendChild(makeCard(item)));
+  attachPlayHandlers(); attachDownloadHandlers();
   if(data.length===0) grid.innerHTML='<div class="muted">No ringtones match your search. Try different keywords or clear filters.</div>';
 }
 
-let currentAudio = new Audio();
-let currentPlayingId = null;
-
+/* AUDIO */
+let currentAudio = new Audio(); let currentPlayingId = null;
 function attachPlayHandlers(){
   document.querySelectorAll('.play').forEach(btn=>{
     btn.onclick = ()=>{
       const id = btn.dataset.id;
       const item = DATA.find(d=>d.id==id);
-      if(currentPlayingId===id){
-        currentAudio.pause();
-        currentPlayingId = null;
-        btn.textContent = '▶';
-      } else {
-        currentAudio.src = item.src;
-        currentAudio.play();
-        currentPlayingId = id;
-        document.querySelectorAll('.play').forEach(b=>b.textContent='▶');
-        btn.textContent = '⏸';
+      if(currentPlayingId===id){ currentAudio.pause(); currentPlayingId=null; btn.textContent='▶'; }
+      else {
+        currentAudio.src=item.src; currentAudio.play(); currentPlayingId=id;
+        document.querySelectorAll('.play').forEach(b=>b.textContent='▶'); btn.textContent='⏸';
       }
-    }
+    };
   });
 }
 
+/* DOWNLOAD MODAL */
+function showModal(){ document.getElementById('downloadModal').classList.add('show'); }
+function closeModal(){ document.getElementById('downloadModal').classList.remove('show'); pendingDownload=null; }
 function attachDownloadHandlers(){
   document.querySelectorAll('.download').forEach(link=>{
     link.addEventListener('click', e=>{
       e.preventDefault();
       if(!isLoggedIn){ alert("Please login to download."); return; }
-
       const url = link.getAttribute('href');
       const filename = link.getAttribute('download') || 'file.mp3';
-      fetch(url)
-        .then(resp=>resp.blob())
-        .then(blob=>{
-          const blobUrl = URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = blobUrl;
-          a.download = filename;
-          document.body.appendChild(a);
-          a.click();
-          document.body.removeChild(a);
-          URL.revokeObjectURL(blobUrl);
-
-          // Show the modal after successful download
-          showModal();
-        })
-        .catch(()=>alert('Server error occurred!'));
+      pendingDownload={url,filename};
+      showModal();
     });
   });
 }
-
-// Modal control
-function showModal(){
-  document.getElementById('downloadModal').classList.add('show');
-}
-function closeModal(){
-  document.getElementById('downloadModal').classList.remove('show');
-}
-
-// Event listeners
-document.getElementById('search').addEventListener('input', e=>{
-  state.query=e.target.value;
-  render();
+document.getElementById('agreeDownload').addEventListener('click', ()=>{
+  if(!pendingDownload) return;
+  fetch(pendingDownload.url)
+    .then(resp=>resp.blob())
+    .then(blob=>{
+      const blobUrl = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = blobUrl; a.download = pendingDownload.filename;
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      URL.revokeObjectURL(blobUrl);
+    })
+    .catch(()=>alert('Server error occurred!'))
+    .finally(()=>closeModal());
 });
 
-document.getElementById('searchBtn').addEventListener('click', ()=>{
-  state.query=document.getElementById('search').value;
-  render();
-});
+/* SEARCH */
+document.getElementById('search').addEventListener('input', e=>{ state.query=e.target.value; render(); });
+document.getElementById('searchBtn').addEventListener('click', ()=>{ state.query=document.getElementById('search').value; render(); });
 
-document.getElementById('sort').addEventListener('change', e=>{
-  state.sort=e.target.value;
-  render();
-});
+/* SORT */
+document.getElementById('sort').addEventListener('change', e=>{ state.sort=e.target.value; render(); });
 
-document.getElementById('loadMore').addEventListener('click', ()=>{
-  state.shown += 8;
-  render();
-});
+/* LOAD MORE */
+document.getElementById('loadMore').addEventListener('click', ()=>{ state.shown+=8; render(); });
 
+/* SHORTCUT FOCUS */
 window.addEventListener('keydown', e=>{
   if(e.key==='/' && !['INPUT','TEXTAREA'].includes(document.activeElement.tagName)){
-    e.preventDefault();
-    document.getElementById('search').focus();
+    e.preventDefault(); document.getElementById('search').focus();
   }
 });
 
+/* INITIAL RENDER */
 render();
 </script>
-
 </body>
 </html>
-
-
-
-
