@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -297,16 +298,14 @@
 <!--upload and download popup-->
 <div class="modal-backdrop" id="downloadModal">
   <div class="modal">
-    <h2>Confirm Download</h2>
-    <p>By downloading, you agree that all ringtones are uploaded by users or third parties. 
-       This website does not own the copyright. Proceed if you accept these terms.</p>
-    <div style="margin-top:12px; display:flex; justify-content:flex-end; gap:10px;">
-      <button id="cancelDownload">Cancel</button>
-      <button id="agreeDownload">Agree & Download</button>
-    </div>
+    <h2>Download Successful</h2>
+    <p>All ringtones available on this website are uploaded by users or third parties. 
+    This website does not own or claim any copyright over the ringtones provided. 
+    Copyright and intellectual property rights remain solely with the original creator, uploader, or the respective rights holders. 
+    If you believe any content infringes upon your rights, please contact us for removal.</p>
+    <button onclick="closeModal()">Close</button>
   </div>
 </div>
-
 <script>
 function showModal(){
   document.getElementById('downloadModal').classList.add('show');
@@ -315,10 +314,12 @@ function closeModal(){
   document.getElementById('downloadModal').classList.remove('show');
 }
 </script>
+
+
 <script>
 const DATA = [
   {id:1,title:'Music',tags:['Sad'],src:'songs/Nepal1.m4a',duration:12,pop:904},
-  {id:2,title:'Calm Bansuri',tags:['Flute'],src:'songs/New Flute Ringtone 2021  Best Flute Ringtone  Best Romantic Ringtone  Best Mobile Flute Ringtone.mp3',duration:30,pop:904},
+  {id:2, title:'Calm Bansuri', tags:['Flute'], src:'songs/New Flute Ringtone 2021  Best Flute Ringtone  Best Romantic Ringtone  Best Mobile Flute Ringtone.mp3',duration:30,pop:904},
   {id:3,title:'Music tone',tags:['Romantic'],src:'songs/Instrumental Ringtone  Romantic Ringtone  Popular Romantic Music tone  New Mobile Ringtone 2021.mp3',duration:12,pop:904},
   {id:4,title:'Calm Bansuri',tags:['Flute'],src:'songs/Krishna flute ringtone  Krishna instrumental ringtone  Radha Krishna flute instrumental ringtone.mp3',duration:26,pop:904},
   {id:5,title:'Mahadev',tags:['dj remix'],src:'songs/Mahadev Ringtone dj  Mahakal Ringtone dj  Mahadev Instrumental Ringtone  Bholenath Ringtone dj.mp3',duration:48,pop:904},
@@ -341,40 +342,37 @@ const trending = document.getElementById('trending');
 const yearEl = document.getElementById('year');
 yearEl.textContent = new Date().getFullYear();
 
-let isLoggedIn = true; // Set false to test login restriction
-let downloadQueue = null;
+let isLoggedIn = true; // Change to false to test login restriction
 
-// Render filter chips
-const allTags = Array.from(new Set(DATA.flatMap(d => d.tags))).sort();
-function renderChips() {
-  filtersEl.innerHTML = '';
-  allTags.forEach(t => {
+const allTags = Array.from(new Set(DATA.flatMap(d=>d.tags))).sort();
+
+function renderChips(){
+  filtersEl.innerHTML='';
+  allTags.forEach(t=>{
     const btn = document.createElement('button');
-    btn.className = 'chip' + (state.filters.has(t) ? ' active' : '');
-    btn.textContent = t;
-    btn.onclick = () => {
-      state.filters.has(t) ? state.filters.delete(t) : state.filters.add(t);
+    btn.className='chip'+(state.filters.has(t)?' active':'');
+    btn.textContent=t;
+    btn.onclick = ()=>{
+      state.filters.has(t)?state.filters.delete(t):state.filters.add(t);
       render();
     };
     filtersEl.appendChild(btn);
   });
 }
 
-// Render trending ringtones
-function renderTrending() {
+function renderTrending(){
   const top = DATA.slice().sort((a,b)=>b.pop-a.pop).slice(0,5);
-  trending.innerHTML = '';
+  trending.innerHTML='';
   top.forEach(t=>{
-    const li = document.createElement('li');
-    li.textContent = t.title;
+    const li=document.createElement('li');
+    li.textContent=t.title;
     trending.appendChild(li);
   });
 }
 
-// Create a ringtone card
 function makeCard(item){
   const c = document.createElement('article');
-  c.className = 'card';
+  c.className='card';
   c.setAttribute('aria-labelledby','t'+item.id);
   c.innerHTML = `
     <div class="meta">
@@ -384,48 +382,47 @@ function makeCard(item){
       </div>
       <div class="controls">
         <button class="play" data-id="${item.id}" title="Preview">▶</button>
-        <button class="download" data-id="${item.id}" data-src="${item.src}" data-title="${item.title}">Download</button>
+        <a class="download" href="${item.src}" download="${item.title}.mp3" data-id="${item.id}">Download</a>
       </div>
     </div>
   `;
   return c;
 }
 
-// Filter and sort
 function getFiltered(){
   const q = state.query.trim().toLowerCase();
   let res = state.data.slice();
-  if(state.filters.size) res = res.filter(d => Array.from(state.filters).every(f => d.tags.includes(f)));
-  if(q) res = res.filter(d => d.title.toLowerCase().includes(q) || d.tags.join(' ').toLowerCase().includes(q));
+  if(state.filters.size) res = res.filter(d=>Array.from(state.filters).every(f=>d.tags.includes(f)));
+  if(q) res = res.filter(d=>d.title.toLowerCase().includes(q) || d.tags.join(' ').toLowerCase().includes(q));
+  
   if(state.sort==='popular') res.sort((a,b)=>b.pop-a.pop);
-  else if(state.sort==='newest') res.sort((a,b)=>b.id-a.id);
+  else if(state.sort==='newest') res.sort((a,b)=>b.id-b.id);
   else if(state.sort==='length') res.sort((a,b)=>a.duration-b.duration);
   return res;
 }
 
-// Render grid
 function render(){
   renderChips();
   renderTrending();
   const data = getFiltered();
   count.textContent = data.length;
-  grid.innerHTML = '';
+  grid.innerHTML='';
   const toShow = data.slice(0,state.shown);
   toShow.forEach(item => grid.appendChild(makeCard(item)));
   attachPlayHandlers();
   attachDownloadHandlers();
-  if(data.length === 0) grid.innerHTML = '<div class="muted">No ringtones match your search.</div>';
+  if(data.length===0) grid.innerHTML='<div class="muted">No ringtones match your search. Try different keywords or clear filters.</div>';
 }
 
-// Audio preview
 let currentAudio = new Audio();
 let currentPlayingId = null;
+
 function attachPlayHandlers(){
   document.querySelectorAll('.play').forEach(btn=>{
     btn.onclick = ()=>{
       const id = btn.dataset.id;
       const item = DATA.find(d=>d.id==id);
-      if(currentPlayingId === id){
+      if(currentPlayingId===id){
         currentAudio.pause();
         currentPlayingId = null;
         btn.textContent = '▶';
@@ -440,60 +437,75 @@ function attachPlayHandlers(){
   });
 }
 
-// Attach download buttons
 function attachDownloadHandlers(){
-  document.querySelectorAll('.download').forEach(btn=>{
-    btn.onclick = ()=>{
+  document.querySelectorAll('.download').forEach(link=>{
+    link.addEventListener('click', e=>{
+      e.preventDefault();
       if(!isLoggedIn){ alert("Please login to download."); return; }
-      downloadQueue = {
-        url: btn.dataset.src,
-        filename: btn.dataset.title + '.mp3'
-      };
-      document.getElementById('downloadModal').classList.add('show');
-    }
+
+      const url = link.getAttribute('href');
+      const filename = link.getAttribute('download') || 'file.mp3';
+      fetch(url)
+        .then(resp=>resp.blob())
+        .then(blob=>{
+          const blobUrl = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = blobUrl;
+          a.download = filename;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(blobUrl);
+
+          // Show the modal after successful download
+          showModal();
+        })
+        .catch(()=>alert('Server error occurred!'));
+    });
   });
 }
 
-// Modal actions
-document.getElementById('agreeDownload').onclick = () => {
-  if(downloadQueue){
-    const a = document.createElement('a');
-    a.href = downloadQueue.url;      
-    a.download = downloadQueue.filename;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    downloadQueue = null;
-    closeModal();
+// Modal control
+function showModal(){
+  document.getElementById('downloadModal').classList.add('show');
+}
+function closeModal(){
+  document.getElementById('downloadModal').classList.remove('show');
+}
+
+// Event listeners
+document.getElementById('search').addEventListener('input', e=>{
+  state.query=e.target.value;
+  render();
+});
+
+document.getElementById('searchBtn').addEventListener('click', ()=>{
+  state.query=document.getElementById('search').value;
+  render();
+});
+
+document.getElementById('sort').addEventListener('change', e=>{
+  state.sort=e.target.value;
+  render();
+});
+
+document.getElementById('loadMore').addEventListener('click', ()=>{
+  state.shown += 8;
+  render();
+});
+
+window.addEventListener('keydown', e=>{
+  if(e.key==='/' && !['INPUT','TEXTAREA'].includes(document.activeElement.tagName)){
+    e.preventDefault();
+    document.getElementById('search').focus();
   }
-};
+});
 
-
-document.getElementById('cancelDownload').onclick = ()=>{
-  downloadQueue = null;
-  closeModal();
-};
-
-function closeModal(){ document.getElementById('downloadModal').classList.remove('show'); }
-
-// Search & sort
-document.getElementById('searchBtn').onclick = ()=>{ state.query = document.getElementById('search').value; render(); };
-document.getElementById('sort').onchange = e=>{ state.sort = e.target.value; render(); };
-
-// Initial render
-render();
-// Initial render
 render();
 </script>
 
-
 </body>
 </html>
-
-
-
-
-
 
 
 
