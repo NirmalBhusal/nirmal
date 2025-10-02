@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instant Phone Screen Sharing</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: Arial, sans-serif; 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh; 
+            padding: 20px;
+        }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .card { 
+            background: white; 
+            border-radius: 15px; 
+            padding: 30px; 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        h1 { color: #333; margin-bottom: 10px; }
+        .subtitle { color: #666; margin-bottom: 20px; }
+        
+        .agreement-box {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .btn {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1em;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 10px 0;
+            transition: all 0.3s ease;
+        }
+        .btn:hover { background: #45a049; }
+        .btn:disabled { background: #ccc; cursor: not-allowed; }
+        .btn.danger { background: #f44336; }
+        .btn.danger:hover { background: #da190b; }
+        
+        .control-panel { display: none; margin-top: 20px; }
+        .screen-container { 
+            position: relative; 
+            margin: 20px 0; 
+            text-align: center;
+        }
+        #remoteVideo {
+            max-width: 90%;
+            border: 3px solid #333;
+            border-radius: 10px;
+            background: #000;
+        }
+        .status {
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            text-align: center;
+            font-weight: bold;
+        }
+        .connecting { background: #fff3cd; color: #856404; }
+        .connected { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        
+        .link-section {
+            background: #e7f3ff;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            display: none;
+        }
+        #shareLink {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #b3d9ff;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div id="setupSection">
+                <h1>📱 Instant Phone Screen Sharing</h1>
+                <p class="subtitle">No Installation Required • Works on Any Phone • Completely Private</p>
+                
+                <div class="agreement-box">
+                    <h3>How It Works:</h3>
+                    <ol>
+                        <li>Click "Generate Share Link" below</li>
+                        <li>Send the link to father's phone (WhatsApp, SMS, etc.)</li>
+                        <li>Father opens the link and clicks "Start Sharing"</li>
+                        <li>See and control father's screen instantly!</li>
+                    </ol>
+                    
+                    <h3>Privacy Agreement:</h3>
+                    <ul>
+                        <li>I am authorized to access this device for assistance</li>
+                        <li>No data is stored or recorded</li>
+                        <li>Connection ends when browser is closed</li>
+                    </ul>
+                </div>
+
+                <label>
+                    <input type="checkbox" id="agreeCheckbox">
+                    I agree to use this for family assistance only
+                </label>
+
+                <button class="btn" id="generateBtn" disabled>Generate Share Link</button>
+
+                <div class="link-section" id="linkSection">
+                    <h3>Send This Link to Father's Phone:</h3>
+                    <input type="text" id="shareLink" readonly>
+                    <button class="btn" onclick="copyLink()">Copy Link</button>
+                    <button class="btn" onclick="sendWhatsApp()">Send WhatsApp</button>
+                    
+                    <div class="status connecting" id="waitingStatus">
+                        Waiting for father to connect...
+                    </div>
+                </div>
+            </div>
+
+            <div class="control-panel" id="controlPanel">
+                <div class="status" id="connectionStatus">Connecting...</div>
+                
+                <div class="screen-container">
+                    <video id="remoteVideo" autoplay playsinline></video>
+                    <div style="margin-top: 10px;">
+                        <small>Click anywhere on the screen to control father's phone</small>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin: 20px 0;">
+                    <button class="btn" onclick="sendControl('home')">Home</button>
+                    <button class="btn" onclick="sendControl('back')">Back</button>
+                    <button class="btn" onclick="sendControl('volup')">Volume +</button>
+                    <button class="btn" onclick="sendControl('voldown')">Volume -</button>
+                    <button class="btn danger" onclick="disconnect()">Stop Sharing</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+        let peerConnection;
+        let currentSessionId;
+
+        // Agreement handling
+        document.getElementById('agreeCheckbox').addEventListener('change', function() {
+            document.getElementById('generateBtn').disabled = !this.checked;
+        });
+
+        // Generate share link
+        document.getElementById('generateBtn').addEventListener('click', function() {
+            socket.emit('create-session');
+        });
+
+        // Handle session creation
+        socket.on('session-created', (sessionId) => {
+            currentSessionId = sessionId;
+            const shareLink = `${window.location.origin}/phone?session=${sessionId}`;
+            
+            document.getElementById('shareLink').value = shareLink;
+            document.getElementById('linkSection').style.display = 'block';
+            document.getElementById('generateBtn').disabled = true;
+            
+            // Join as PC
+            socket.emit('pc-join', sessionId);
+            
+            initializeWebRTC();
+        });
+
+        // Handle phone connection
+        socket.on('phone-connected', () => {
+            document.getElementById('waitingStatus').textContent = 'Phone connected! Starting screen share...';
+            document.getElementById('waitingStatus').className = 'status connected';
+        });
+
+        function copyLink() {
+            navigator.clipboard.writeText(document.getElementById('shareLink').value);
+            alert('Link copied! Send this to father\'s phone.');
+        }
+
+        function sendWhatsApp() {
+            const link = document.getElementById('shareLink').value;
+            const message = `Hi! Please click this link to start screen sharing: ${link}`;
+            window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank');
+        }
+
+        async function initializeWebRTC() {
+            try {
+                peerConnection = new RTCPeerConnection({
+                    iceServers: [{ urls: 'stun:stun.l.google.com:19302' }]
+                });
+
+                // Handle incoming stream
+                peerConnection.ontrack = (event) => {
+                    const remoteVideo = document.getElementById('remoteVideo');
+                    remoteVideo.srcObject = event.streams[0];
+                    
+                    // Show control panel
+                    document.getElementById('setupSection').style.display = 'none';
+                    document.getElementById('controlPanel').style.display = 'block';
+                    document.getElementById('connectionStatus').textContent = 'Connected - Live screen sharing active';
+                    document.getElementById('connectionStatus').className = 'status connected';
+                };
+
+                // Handle ICE candidates
+                peerConnection.onicecandidate = (event) => {
+                    if (event.candidate) {
+                        socket.emit('ice-candidate', {
+                            sessionId: currentSessionId,
+                            candidate: event.candidate
+                        });
+                    }
+                };
+
+                // Create offer
+                const offer = await peerConnection.createOffer();
+                await peerConnection.setLocalDescription(offer);
+                
+                socket.emit('offer', {
+                    sessionId: currentSessionId,
+                    offer: offer
+                });
+
+            } catch (error) {
+                console.error('WebRTC error:', error);
+            }
+        }
+
+        // Handle WebRTC signaling
+        socket.on('answer', async (answer) => {
+            await peerConnection.setRemoteDescription(answer);
+        });
+
+        socket.on('ice-candidate', async (candidate) => {
+            await peerConnection.addIceCandidate(candidate);
+        });
+
+        // Screen click control
+        document.getElementById('remoteVideo').addEventListener('click', (e) => {
+            const rect = e.target.getBoundingClientRect();
+            const x = (e.clientX - rect.left) / rect.width;
+            const y = (e.clientY - rect.top) / rect.height;
+            
+            sendControl('tap', { x, y });
+        });
+
+        function sendControl(command, data = {}) {
+            socket.emit('control-command', {
+                sessionId: currentSessionId,
+                command: { type: command, ...data }
+            });
+        }
+
+        function disconnect() {
+            if (peerConnection) {
+                peerConnection.close();
+            }
+            window.location.reload();
+        }
+
+        socket.on('session-ended', () => {
+            alert('Phone disconnected');
+            disconnect();
+        });
+    </script>
+</body>
+</html>

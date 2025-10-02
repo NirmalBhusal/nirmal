@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Share Your Screen</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+        h1 { color: #333; margin-bottom: 10px; }
+        p { color: #666; margin-bottom: 20px; line-height: 1.6; }
+        
+        .btn {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1em;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 10px 0;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+        .btn:hover { background: #45a049; }
+        .btn.stop { background: #f44336; }
+        .btn.stop:hover { background: #da190b; }
+        
+        .status {
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+        .sharing { background: #d4edda; color: #155724; }
+        
+        .instructions {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📱 Share Your Screen</h1>
+        <p>Your family member wants to help you with your phone.</p>
+        
+        <div class="instructions">
+            <strong>When you click "Start Sharing":</strong>
+            <ol>
+                <li>Choose "Your Entire Screen"</li>
+                <li>Click "Share" to begin</li>
+                <li>Your helper can now see your screen</li>
+                <li>You can stop anytime</li>
+            </ol>
+        </div>
+
+        <button class="btn" id="startBtn">Start Screen Sharing</button>
+        <button class="btn stop" id="stopBtn" style="display: none;">Stop Sharing</button>
+
+        <div class="status" id="status" style="display: none;">
+            Screen sharing active...
+        </div>
+
+        <div style="margin-top: 20px; font-size: 0.9em; color: #888;">
+            <p>This connection is secure and private.</p>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+        const urlParams = new URLSearchParams(window.location.search);
+        const sessionId = urlParams.get('session');
+        let peerConnection;
+        let mediaStream;
+
+        if (!sessionId) {
+            alert('Invalid link. Please get a new link from your helper.');
+        } else {
+            socket.emit('phone-join', sessionId);
+        }
+
+        document.getElementById('startBtn').addEventListener('click', startSharing);
+        document.getElementById('stopBtn').addEventListener('click', stopSharing);
+
+        async function startSharing() {
+            try {
+                // Get screen stream
+                mediaStream = await navigator.mediaDevices.getDisplayMedia({
+                    video: { cursor: 'always' },
+                    audio: false
+                });
+
+                // Update UI
+                document.getElementById('startBtn').style.display = 'none';
+                document.getElementById('stopBtn').style.display = 'block';
+                document.getElementById('status').style.display = 'block';
+                document.getElementById('status').textContent = '✅ Screen sharing active';
+                document.getElementById('status').className = 'status sharing';
+
+                // Handle stop via browser controls
+                mediaStream.getTracks().forEach(track => {
+                    track.onended = stopSharing;
+                });
+
+                // Initialize WebRTC
+                await initializeWebRTC();
+
+            } catch (error) {
+                console.error('Screen share error:', error);
+                alert('Please allow screen sharing to continue.');
+            }
+        }
+
+        async function initializeWebRTC() {
+            peerConnection = new RTCPeerConnection({
+                iceServers: [{ urls: 'stun:stun.l.google.com:19302' }]
+            });
+
+            // Add screen track
+            mediaStream.getTracks().forEach(track => {
+                peerConnection.addTrack(track, mediaStream);
+            });
+
+            // Handle ICE candidates
+            peerConnection.onicecandidate = (event) => {
+                if (event.candidate) {
+                    socket.emit('ice-candidate', {
+                        sessionId: sessionId,
+                        candidate: event.candidate
+                    });
+                }
+            };
+
+            // Handle offer
+            socket.on('offer', async (offer) => {
+                await peerConnection.setRemoteDescription(offer);
+                const answer = await peerConnection.createAnswer();
+                await peerConnection.setLocalDescription(answer);
+                
+                socket.emit('answer', {
+                    sessionId: sessionId,
+                    answer: answer
+                });
+            });
+
+            socket.on('ice-candidate', async (candidate) => {
+                await peerConnection.addIceCandidate(candidate);
+            });
+
+            // Handle control commands
+            socket.on('control-command', (command) => {
+                console.log('Control command:', command);
+                // Here you would implement actual phone control
+            });
+        }
+
+        function stopSharing() {
+            if (mediaStream) {
+                mediaStream.getTracks().forEach(track => track.stop());
+            }
+            if (peerConnection) {
+                peerConnection.close();
+            }
+            window.close();
+        }
+
+        window.addEventListener('beforeunload', stopSharing);
+    </script>
+</body>
+</html>
