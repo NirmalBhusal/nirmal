@@ -188,6 +188,30 @@
         }
 
         window.addEventListener('beforeunload', stopSharing);
+      
+    // Add connection status monitoring
+    const socket = io({
+        transports: ['websocket', 'polling'],
+        reconnection: true,
+        reconnectionAttempts: 5
+    });
+
+    socket.on('connect', () => {
+        console.log('✅ Connected to server');
+        document.getElementById('connectionStatus').textContent = 'Connected to server';
+    });
+
+    socket.on('disconnect', () => {
+        console.log('❌ Disconnected from server');
+        document.getElementById('connectionStatus').textContent = 'Disconnected from server';
+    });
+
+    socket.on('connect_error', (error) => {
+        console.error('Connection error:', error);
+        document.getElementById('connectionStatus').textContent = 'Connection failed: ' + error.message;
+    });
+
     </script>
 </body>
+
 </html>
